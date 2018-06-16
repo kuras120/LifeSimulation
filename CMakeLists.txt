@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5.1)
 SET(CMAKE_CXX_STANDARD 11)
 
 PROJECT(LifeSimulation)
@@ -27,7 +27,7 @@ ADD_EXECUTABLE(LifeSimulation
         src/threads/include/Human.hpp
         src/places/Place.cpp
         src/places/include/Place.hpp
-        )
+        src/places/Restaurant.cpp src/places/include/Restaurant.h)
 
 FIND_PACKAGE(Curses REQUIRED)
 FIND_PACKAGE(Threads REQUIRED)
