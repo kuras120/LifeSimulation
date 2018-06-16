@@ -2,33 +2,37 @@
 #include <unistd.h>
 #include <thread>
 #include "output/Logger.h"
+#include "threads/WorkerThread.h"
+#include "threads/WorkerThreadMenager.h"
+#include "places/Place1.h"
+#include "places/Place2.h"
 
-void f(int i, Logger* logger){
-    for(int j = 0; j<50; j++)
-    {
-        std::string buff = "text" + std::to_string(i) + " " + std::to_string(j);
-        logger->Save(buff);
-    }
-}
+Logger *logger;
+WorkerThreadMenager thread;
 
 int main() {
-    Logger *logger = new Logger("../example.txt");
-    logger->Save("sad");
-    logger->Save("asd");
-    logger->Save("ss");
-    std::cout<<get_current_dir_name();
 
-    int i = 3;
-    std::thread t1(f, 1, logger);
-    std::thread t2(f, 2, logger);
-    std::thread t3(f, 3, logger);
-    std::thread t4(f, 4, logger);
-    std::thread t5(f, 5, logger);
-    t1.join();
-    t2.join();
-    t3.join();
-    t4.join();
-    t5.join();
+    //Logger::Instance()
+    //Logger::Instance()->Save("sad");
+    //Logger::Instance()->Save("sad");
+    //Logger::Instance()->Save("sad");
+    std::cout<<"\n";
+    Place place;
+    Place1 place1;
+    Place2 place2;
+    //thread.AddPlace(place);
+    //thread.AddPlace(place1);
+   // thread.AddPlace(place);
+    thread.AddPlace(place1);
+    thread.AddPlace(place1);
+    thread.AddPlace(place1);
+    thread.AddPlace(place1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    //do
+    //{
+    //    std::cout << '\n' << "Press a key to continue...\n";
+    //} while (std::cin.get() != '\n');
 
 
     return 0;

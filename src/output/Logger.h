@@ -11,14 +11,19 @@
 #include <mutex>
 #include <atomic>
 #include "../synchronizers/CriticalSection.h"
+#include <atomic>
+#include <memory>
 
 class Logger {
-    std::ofstream logFile;
-    CriticalSection criticalSection;
-    ~Logger();
-    std::mutex mtx;
-public:
+private:
     Logger(std::string fileName);
+
+    static std::mutex mtx;
+    std::mutex mutex;
+    std::ofstream logFile;
+public:
+    ~Logger();
+    static std::shared_ptr<Logger> Instance();
     bool Save(std::string text);
 };
 

@@ -20,11 +20,13 @@ public:
 private:
     void startThread();
 private:
-    std::condition_variable itemInQueue;
-    std::mutex mutex;
     std::unique_ptr<std::thread> thread;
     std::list<std::function<void()>> tasks;
+protected:
+    std::mutex mutex;
     volatile bool isRunning;
+    std::condition_variable itemInQueue;
+    std::condition_variable queueEmpty;
 };
 
 

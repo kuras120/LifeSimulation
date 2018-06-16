@@ -3,6 +3,7 @@
 //
 
 #include "WorkerThread.h"
+#include "../output/Logger.h"
 
 WorkerThread::WorkerThread()
 {
@@ -30,14 +31,19 @@ void WorkerThread::startThread()
         while (isRunning && tasks.empty())
             itemInQueue.wait(l);
 
+        queueEmpty.notify_one();
+
         while (!tasks.empty())
         {
+            Logger::Instance()->Save("task queue size: " + std::to_string(tasks.size()));
+
             const std::function<void()> t = tasks.front();
             tasks.pop_front();
             l.unlock();
             t();
             l.lock();
         }
+
         itemInQueue.notify_all();
 
     } while (isRunning);
@@ -55,3 +61,30 @@ void WorkerThread::addTaskAtFront(const std::function<void()> &t) {
     tasks.push_front(t);
     itemInQueue.notify_one();
 }
+
+/*
+ * example:
+ *
+ * void s(){
+    for(int i =0; i<400; i++)
+        logger->Save(std::to_string(i));
+    }
+
+    void c(){
+        logger->Save("xxx");
+    }
+
+ * WorkerThread thread;
+ * auto x = (const std::function<void()> &)s;
+ * auto d = (const std::function<void()> &)c;
+ *
+ * thread.addTask(x);
+ * thread.addTask(x);
+ * thread.addTaskAtFront(d);
+ *
+ *
+ * thread.addTask((const std::function<void()> &) []{
+ *       std::cout << "second";
+ *  });
+ *
+ */
