@@ -2,14 +2,16 @@
 // Created by root on 16.06.18.
 //
 
+#include <iostream>
 #include "WorkerThreadMenager.h"
 #include "../output/Logger.h"
 
 WorkerThreadMenager::WorkerThreadMenager() {
+
     threadUpdateEmptyQueue.reset(
             new std::thread([this]
                             {
-                                this->isRunning = true;
+                                this->isRunning= true;
                                 this->startThread();
                             })
             );
@@ -23,12 +25,16 @@ void WorkerThreadMenager::startThread() {
 
         while (isRunning && placesQueue.empty())
             placeInQueue.wait(lock);
-
+        //if(tasks.empty()){
+         //   while (isRunning && placesQueue.empty())
+        //        placeInQueue.wait(lock);
+       // } else {
+       //     queueEmpty.wait(lock);
+       // }
         Logger::Instance()->Save("places queue size: " + std::to_string(placesQueue.size()));
 
         auto place = placesQueue.front();
         placesQueue.pop_front();
-
         auto tasks = place.getTasks();
         auto n = tasks.size();
         for (int i = 0; i < n; ++i) {
@@ -37,12 +43,13 @@ void WorkerThreadMenager::startThread() {
             addTask(task);
         }
 
+        queueEmpty.notify_one();
+        isRunning = true;
     } while (isRunning);
     queueEmpty.notify_all();
 }
 
 void WorkerThreadMenager::AddPlace(Place const& place) {
-
     std::lock_guard<std::mutex> mtx (mutex);
     placesQueue.push_back(place);
     placeInQueue.notify_one();

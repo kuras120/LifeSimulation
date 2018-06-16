@@ -21,5 +21,6 @@ std::list<const std::function<void()>> Place1::getTasks() {
     std::list<const std::function<void()>> tasks;
     tasks.push_back((const std::function<void()> &)a1);
     tasks.push_back((const std::function<void()> &)b1);
+    tasks.push_back((const std::function<void()> &)c1);
     return tasks;
 }

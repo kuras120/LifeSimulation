@@ -18,7 +18,18 @@ Logger::Logger(std::string fileName) {
 bool Logger::Save(std::string text)
 {
     std::lock_guard<std::mutex> l(mutex);
-    logFile<< text << "\n";
+
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,sizeof(buffer),"[%I:%M:%S] ",timeinfo);
+    std::string str(buffer);
+
+    logFile<< buffer <<text << "\n";
     logFile.flush();
     return true;
 }
@@ -27,8 +38,6 @@ std::shared_ptr<Logger> Logger::Instance() {
     static std::shared_ptr<Logger> instance;
     if (!instance)
     {
-        //std::lock_guard<std::mutex> lock(Logger::mtx);
-
         if (!instance) {
             instance.reset(new Logger("../logger.txt"));
         }

@@ -21,12 +21,12 @@ private:
     void startThread();
 private:
     std::unique_ptr<std::thread> thread;
-    std::list<std::function<void()>> tasks;
 protected:
     std::mutex mutex;
-    volatile bool isRunning;
+    bool isRunning = true;
     std::condition_variable itemInQueue;
     std::condition_variable queueEmpty;
+    std::list<std::function<void()>> tasks;
 };
 
 

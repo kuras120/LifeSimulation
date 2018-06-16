@@ -16,7 +16,6 @@ WorkerThread::WorkerThread()
 
 WorkerThread::~WorkerThread() {
     {
-        isRunning = false;
         itemInQueue.notify_one();
     }
     thread->join();
@@ -31,21 +30,19 @@ void WorkerThread::startThread()
         while (isRunning && tasks.empty())
             itemInQueue.wait(l);
 
-        queueEmpty.notify_one();
-
         while (!tasks.empty())
         {
             Logger::Instance()->Save("task queue size: " + std::to_string(tasks.size()));
 
             const std::function<void()> t = tasks.front();
             tasks.pop_front();
+            //isRunning = true;
             l.unlock();
             t();
             l.lock();
         }
 
-        itemInQueue.notify_all();
-
+        queueEmpty.notify_one();
     } while (isRunning);
     itemInQueue.notify_all();
 }

@@ -10,30 +10,24 @@
 Logger *logger;
 WorkerThreadMenager thread;
 
+void test() {
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+}
+
 int main() {
 
-    //Logger::Instance()
-    //Logger::Instance()->Save("sad");
-    //Logger::Instance()->Save("sad");
-    //Logger::Instance()->Save("sad");
     std::cout<<"\n";
     Place place;
     Place1 place1;
     Place2 place2;
     //thread.AddPlace(place);
     //thread.AddPlace(place1);
-   // thread.AddPlace(place);
+    // thread.AddPlace(place);
     thread.AddPlace(place1);
     thread.AddPlace(place1);
     thread.AddPlace(place1);
     thread.AddPlace(place1);
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    //do
-    //{
-    //    std::cout << '\n' << "Press a key to continue...\n";
-    //} while (std::cin.get() != '\n');
-
-
-    return 0;
+    std::this_thread::sleep_for(std::chrono::milliseconds(3));
 }

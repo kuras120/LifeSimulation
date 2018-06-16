@@ -1,0 +1,28 @@
+[05:59:04] places queue size: 4
+[05:59:04] task queue size: 3
+[05:59:04] place0 task1
+[05:59:05] task queue size: 2
+[05:59:05] place0 task2
+[05:59:06] task queue size: 1
+[05:59:06] place0 task3
+[05:59:07] places queue size: 3
+[05:59:07] task queue size: 3
+[05:59:07] place0 task1
+[05:59:08] task queue size: 2
+[05:59:08] place0 task2
+[05:59:09] task queue size: 1
+[05:59:09] place0 task3
+[05:59:10] places queue size: 2
+[05:59:10] task queue size: 3
+[05:59:10] place0 task1
+[05:59:11] task queue size: 2
+[05:59:11] place0 task2
+[05:59:12] task queue size: 1
+[05:59:12] place0 task3
+[05:59:13] places queue size: 1
+[05:59:13] task queue size: 3
+[05:59:13] place0 task1
+[05:59:14] task queue size: 2
+[05:59:14] place0 task2
+[05:59:15] task queue size: 1
+[05:59:15] place0 task3
