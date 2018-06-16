@@ -1,6 +1,9 @@
 #include <thread>
 #include <spdlog/spdlog.h>
+#include <MainController.hpp>
 
 int main() {
-    return EXIT_SUCCESS;
+	MainController mainController;
+
+	return EXIT_SUCCESS;
 }

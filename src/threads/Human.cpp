@@ -3,3 +3,8 @@
 //
 
 #include <Human.hpp>
+
+void Human::start()
+{
+
+}

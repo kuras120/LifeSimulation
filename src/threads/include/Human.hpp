@@ -3,6 +3,8 @@
 //
 #pragma once
 
-class Human{
-
+class Human
+{
+public:
+	void start();
 };
