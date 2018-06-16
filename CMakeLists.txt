@@ -14,22 +14,16 @@ ExternalProject_Add(SPDLOG
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${SPDLOG_INSTALL_LOCATION}
         )
 
+
+include_directories(src/places/include)
+include_directories(src/threads/include)
+
 ADD_EXECUTABLE(LifeSimulation
         src/main.cpp 
-        src/output/Console.cpp 
-        src/output/Console.h 
-        src/output/Logger.cpp 
-        src/output/Logger.h 
-        src/synchronizers/CriticalSection.cpp 
-        src/synchronizers/CriticalSection.h 
-        src/threads/WorkerThread.cpp 
-        src/threads/WorkerThread.hpp
         src/threads/Human.cpp 
-        src/threads/Human.h 
+        src/threads/include/Human.hpp
         src/places/Place.cpp 
-        src/places/Place.hpp 
-        src/threads/WorkerThreadMenager.cpp 
-        src/threads/WorkerThreadMenager.h
+        src/places/include/Place.hpp
         )
 
 FIND_PACKAGE(Curses REQUIRED)

@@ -7,8 +7,7 @@
 
 
 #include <list>
-#include "../places/Place.hpp"
-#include "WorkerThread.hpp"
+#include "Place.hpp"
 
 class Human : public WorkerThread{
 public:
