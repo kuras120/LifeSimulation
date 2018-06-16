@@ -6,11 +6,15 @@
 #include "threads/WorkerThreadMenager.h"
 #include "places/Place1.h"
 #include "places/Place2.h"
+#include <spdlog/spdlog.h>
 
 Logger *logger;
 WorkerThreadMenager thread;
 
 int main() {
+
+    spdlog::basic_logger_mt("main", "dump.log");
+    spdlog::get("main")->info("Initialised");
 
     //Logger::Instance()
     //Logger::Instance()->Save("sad");
