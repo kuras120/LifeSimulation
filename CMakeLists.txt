@@ -17,12 +17,15 @@ ExternalProject_Add(SPDLOG
 
 include_directories(src/places/include)
 include_directories(src/threads/include)
+include_directories(src/controllers/include)
 
 ADD_EXECUTABLE(LifeSimulation
-        src/main.cpp 
-        src/threads/Human.cpp 
+        src/main.cpp
+        src/controllers/include/MainController.hpp
+        src/controllers/MainController.cpp
+        src/threads/Human.cpp
         src/threads/include/Human.hpp
-        src/places/Place.cpp 
+        src/places/Place.cpp
         src/places/include/Place.hpp
         )
 

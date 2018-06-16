@@ -1,27 +1,8 @@
 //
 // Created by root on 16.06.18.
 //
+#pragma once
 
-#ifndef LIFESIMULATION_HUMAN_H
-#define LIFESIMULATION_HUMAN_H
+class Human{
 
-
-#include <list>
-#include "Place.hpp"
-
-class Human : public WorkerThread{
-public:
-    Human();
-    void AddPlaceAtFront(Place place);
-    void AddPlaceAtBack(Place);
-private:
-    void popPlace();
-
-private:
-    std::unique_ptr<std::thread> threadUpdateEmptyQueue;
-    std::mutex mutex;
-    std::list<Place> placesQueue;
 };
-
-
-#endif //LIFESIMULATION_HUMAN_H
