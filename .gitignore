@@ -37,3 +37,6 @@
 # Cmake Debug
 cmake-build-debug/
 
+# ormaniec
+.vscode
+bin/
