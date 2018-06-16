@@ -10,8 +10,9 @@
 #include <list>
 
 class Place {
+    std::list<std::function<void()>> tasks_;
 public:
-    virtual std::list<const std::function<void()>> getTasks();
+    std::list<std::function<void()>> const& getTasks();
 };
 
 

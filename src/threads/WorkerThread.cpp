@@ -2,7 +2,7 @@
 // Created by root on 16.06.18.
 //
 
-#include "WorkerThread.h"
+#include "WorkerThread.hpp"
 #include "../output/Logger.h"
 
 WorkerThread::WorkerThread()

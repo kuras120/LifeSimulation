@@ -6,8 +6,8 @@
 #define LIFESIMULATION_WORKERTHREADMENAGER_H
 
 
-#include "WorkerThread.h"
-#include "../places/Place.h"
+#include "WorkerThread.hpp"
+#include "../places/Place.hpp"
 
 class WorkerThreadMenager : public WorkerThread {
     void AddPlaceAtFront(Place place);

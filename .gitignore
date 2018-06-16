@@ -40,3 +40,4 @@ cmake-build-debug/
 # ormaniec
 .vscode
 bin/
+logger.txt

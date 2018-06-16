@@ -15,7 +15,22 @@ ExternalProject_Add(SPDLOG
         )
 
 ADD_EXECUTABLE(LifeSimulation
-        src/main.cpp src/output/Console.cpp src/output/Console.h src/output/Logger.cpp src/output/Logger.h src/synchronizers/CriticalSection.cpp src/synchronizers/CriticalSection.h src/threads/WorkerThread.cpp src/threads/WorkerThread.h src/threads/Human.cpp src/threads/Human.h src/places/Place.cpp src/places/Place.h src/threads/WorkerThreadMenager.cpp src/threads/WorkerThreadMenager.h src/places/Place1.cpp src/places/Place1.h src/places/Place2.cpp src/places/Place2.h)
+        src/main.cpp 
+        src/output/Console.cpp 
+        src/output/Console.h 
+        src/output/Logger.cpp 
+        src/output/Logger.h 
+        src/synchronizers/CriticalSection.cpp 
+        src/synchronizers/CriticalSection.h 
+        src/threads/WorkerThread.cpp 
+        src/threads/WorkerThread.hpp
+        src/threads/Human.cpp 
+        src/threads/Human.h 
+        src/places/Place.cpp 
+        src/places/Place.hpp 
+        src/threads/WorkerThreadMenager.cpp 
+        src/threads/WorkerThreadMenager.h
+        )
 
 FIND_PACKAGE(Curses REQUIRED)
 FIND_PACKAGE(Threads REQUIRED)
