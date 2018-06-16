@@ -4,6 +4,7 @@
 
 int main() {
 	MainController mainController;
+	mainController.start();
 
 	return EXIT_SUCCESS;
 }
