@@ -8,6 +8,7 @@
 Human::Human(std::list<std::shared_ptr<Place>> places, std::string name) {
     this->places = places;
     this->name = name;
+    position_ = std::pair<int, int>(12, 10);
 }
 
 void Human::start()
@@ -31,4 +32,8 @@ int Human::getFatigue() {
 
 void Human::setFatigue(int level) {
     this->fatigue = level;
+}
+
+std::pair<int, int> Human::GetPossition() {
+    return position_;
 }

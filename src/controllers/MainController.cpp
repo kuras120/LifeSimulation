@@ -10,7 +10,7 @@ MainController::MainController()
 	initialiseLoggers();
 	initialisePlaces();
 	initialiseConsole();
-	//initialiseHumans(15);
+	initialiseHumans(1);
 }
 
 void MainController::initialiseLoggers()
@@ -35,6 +35,7 @@ MainController::~MainController()
 void MainController::initialiseHumans(unsigned humanCount)
 {
     std::list<std::shared_ptr<Place>> places;
+
     std::shared_ptr<Place> restaurant = std::make_shared<Restaurant>();
 
     places.push_back(restaurant);
@@ -58,6 +59,7 @@ void MainController::start() {
 void MainController::cleanUp()
 {
 	logger_->info("Waiting for threads to exit");
+	console_->Stop();
 	for ( auto& thread : humanThreadList_ )
 	{
 		thread.join();
@@ -82,10 +84,20 @@ void MainController::initialiseConsole() {
 	console_= std::make_shared<Console>(this);
 }
 
-const std::shared_ptr<Restaurant> &MainController::getRestaurant() const {
+std::shared_ptr<Restaurant> &MainController::getRestaurant() {
 	return restaurant_;
 }
 
 void MainController::initialisePlaces() {
 	restaurant_= std::make_shared<Restaurant>();
+
+	logger_->info("Initialised places");
+}
+
+std::shared_ptr<spdlog::logger> &MainController::getLogger() {
+	return logger_;
+}
+
+std::list<Human> &MainController::getHumanList() {
+	return humanList_;
 }

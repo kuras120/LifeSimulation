@@ -9,6 +9,7 @@
 #include <memory>
 #include <ncurses.h>
 #include <thread>
+#include <list>
 
 class MainController;
 
@@ -26,6 +27,7 @@ private:
     void refreshWin();
     void run();
 
+    std::list<std::pair<int, int>> toClear;
     bool isRunning;
     WINDOW * mainWin;
     MainController *controller;

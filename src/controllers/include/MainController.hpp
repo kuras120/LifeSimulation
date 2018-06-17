@@ -13,7 +13,9 @@ class MainController
 	//places
 	std::shared_ptr<Restaurant> restaurant_;
 public:
-	const std::shared_ptr<Restaurant> &getRestaurant() const;
+	std::shared_ptr<Restaurant> &getRestaurant();
+	std::shared_ptr<spdlog::logger> &getLogger();
+	std::list<Human> &getHumanList();
 
 private:
 

@@ -24,14 +24,14 @@ void Console::initializeWindow() {
     start_color();
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
-    init_pair(3, COLOR_RED, COLOR_BLACK);
+    init_pair(3, COLOR_BLACK, COLOR_BLACK);
     init_pair(4, COLOR_GREEN, COLOR_BLACK);
 
     initializePlaces();
     refresh();
+
+    controller->getLogger()->info("Initialised console");
 }
-
-
 
 Console::~Console() {
     std::this_thread::sleep_for(std::chrono::seconds(4));
@@ -49,24 +49,41 @@ void Console::initializePlaces() {
     mvprintw(restLoc.first+7, restLoc.second, "################");
 
     refresh();
+
 }
 
 void Console::refreshWin() {
 
+    attron(COLOR_PAIR(3));
+    for (auto poss: toClear) {
+        mvprintw(poss.first, poss.second, "H");
+    }
 
+    toClear.clear();
+    attron(COLOR_PAIR(2));
+    for ( auto& human : controller->getHumanList() )
+    {
+        std::pair<int, int> poss = human.GetPossition();
 
+        toClear.push_back(poss);
+        mvprintw(poss.first, poss.second, "H");
+    }
+    controller->getLogger()->info("Console refreshed");
 }
 
 
 std::thread Console::SpawnThread() {
-    isRunning = true;
-    return std::thread([this] {this->run(); });
+
+    return std::thread([this] {
+        isRunning = true;
+        this->run(); });
 }
 
 void Console::run() {
-    while(!isRunning) {
+    while(isRunning) {
         refreshWin();
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        refresh();
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }
 

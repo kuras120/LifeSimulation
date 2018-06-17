@@ -10,6 +10,7 @@ public:
     virtual void setSaturation(int level) = 0;
     virtual int getFatigue() = 0;
     virtual void setFatigue(int level) = 0;
+    virtual std::pair<int, int> GetPossition() = 0;
 
 };
 #endif //LIFESIMULATION_IHUMAN_H

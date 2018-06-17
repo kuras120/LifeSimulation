@@ -15,13 +15,16 @@ private:
     int fatigue;
     bool alive = true;
     std::list<std::shared_ptr<Place>> places;
+    std::pair<int, int> position_;
 
 public:
     Human(std::list<std::shared_ptr<Place>> places, std::string name);
 
 	void start();
 
-    int getSaturation() override;
+	std::pair<int, int> GetPossition() override;
+
+	int getSaturation() override;
 
     void setSaturation(int level) override;
 
