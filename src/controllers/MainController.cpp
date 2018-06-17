@@ -42,12 +42,15 @@ void MainController::initialiseHumans(unsigned humanCount)
 
     int i = 0;
 	logger_->info("Initialising new humans");
-	while ( humanList_.size() != humanCount )
+	humanList_ = std::make_shared<std::list<std::shared_ptr<Human>>>();
+	while ( humanList_->size() != humanCount )
 	{
-		humanList_.emplace_back(places, std::to_string(i), logger_);
+
+		humanList_->emplace_back(
+				std::make_shared<Human>(places, std::to_string(i), logger_));
         i++;
 	}
-	logger_->info("Initialised " + std::to_string(humanList_.size()) + " humans");
+	logger_->info("Initialised " + std::to_string(humanList_->size()) + " humans");
 }
 
 void MainController::start() {
@@ -70,10 +73,10 @@ void MainController::cleanUp()
 void MainController::startHumans()
 {
 	logger_->info("Creating threads");
-	for ( auto& human : humanList_ )
+	for ( auto& human : *humanList_ )
 	{
 		humanThreadList_.emplace_back(
-				&Human::start, human
+				&Human::start, *human
 				);
 	}
 	logger_->info("All threads ready");
@@ -97,6 +100,6 @@ std::shared_ptr<spdlog::logger> &MainController::getLogger() {
 	return logger_;
 }
 
-std::list<Human> &MainController::getHumanList() {
+std::shared_ptr<std::list<std::shared_ptr<Human>>> &MainController::getHumanList() {
 	return humanList_;
 }

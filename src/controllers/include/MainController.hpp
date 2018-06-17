@@ -15,14 +15,14 @@ class MainController
 public:
 	std::shared_ptr<Restaurant> &getRestaurant();
 	std::shared_ptr<spdlog::logger> &getLogger();
-	std::list<Human> &getHumanList();
+	std::shared_ptr<std::list<std::shared_ptr<Human>>> &getHumanList();
 
 private:
 
 	std::shared_ptr<spdlog::logger> logger_;
 	std::shared_ptr<Console> console_;
 
-	std::list<Human> humanList_;
+	std::shared_ptr<std::list<std::shared_ptr<Human>>> humanList_;
 	std::vector<std::thread> humanThreadList_;
 	std::thread consoleThread_;
 public:

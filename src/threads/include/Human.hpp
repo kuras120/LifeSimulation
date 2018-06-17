@@ -4,10 +4,12 @@
 #pragma once
 
 #include <thread>
-#include <Place.hpp>
 #include <mutex>
 #include <spdlog/logger.h>
 #include "../IHuman.h"
+#include <list>
+
+class Place;
 
 class Human: public IHuman
 {
@@ -22,6 +24,8 @@ private:
 
 public:
     Human(std::list<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger);
+
+    void GoTo(int x, int y);
 
 	void start();
 

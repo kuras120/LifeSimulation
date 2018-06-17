@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <mutex>
+#include <Human.hpp>
 #include "Restaurant.h"
 
 Restaurant::Restaurant() {
@@ -32,9 +33,9 @@ void Restaurant::work(int worker) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
-void Restaurant::start() {
+void Restaurant::start(Human *human) {
     std::mutex m;
-    
+    human->GoTo(location_.first, location_.second);
     if(freeTables <= 0) m.lock();
 
     auto t = std::make_shared<table>();

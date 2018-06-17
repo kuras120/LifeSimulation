@@ -61,9 +61,10 @@ void Console::refreshWin() {
 
     toClear.clear();
     attron(COLOR_PAIR(2));
-    for ( auto& human : controller->getHumanList() )
+    for ( auto human : *(controller->getHumanList()) )
     {
-        std::pair<int, int> poss = human.GetPossition();
+        std::pair<int, int> poss = human->GetPossition();
+        controller->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
 
         toClear.push_back(poss);
         mvprintw(poss.first, poss.second, "H");

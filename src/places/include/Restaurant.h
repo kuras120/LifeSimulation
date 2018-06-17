@@ -30,7 +30,7 @@ private:
 public:
     Restaurant();
     void work(int worker);
-    void start() override;
+    void start(Human *human);
     std::pair <int, int> getLocation();
 };
 
