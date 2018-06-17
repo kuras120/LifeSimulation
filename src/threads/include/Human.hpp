@@ -6,6 +6,7 @@
 #include <thread>
 #include <Place.hpp>
 #include <mutex>
+#include <spdlog/logger.h>
 #include "../IHuman.h"
 
 class Human: public IHuman
@@ -17,9 +18,10 @@ private:
     bool alive = true;
     std::list<std::shared_ptr<Place>> places;
     std::pair<int, int> position_;
+	std::shared_ptr<spdlog::logger> logger_;
 
 public:
-    Human(std::list<std::shared_ptr<Place>> places, std::string name);
+    Human(std::list<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger);
 
 	void start();
 

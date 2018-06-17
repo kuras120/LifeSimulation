@@ -22,7 +22,7 @@ class Restaurant: public Place {
 private:
     int freeTables;
     int tableCounter;
-    std::queue<table*> tables;
+    std::queue<std::shared_ptr<table>> tables;
     std::thread waiter;
     std::thread cook;
     bool open = true;

@@ -5,21 +5,16 @@
 #include <Human.hpp>
 #include <iostream>
 
-Human::Human(std::list<std::shared_ptr<Place>> places, std::string name) {
+Human::Human(std::list<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger) {
     this->places = places;
-    this->name = "human"  + name;
+    this->name = "human "  + name;
+    this->logger_ = logger;
     position_ = std::pair<int, int>(12, 10);
 }
 
 void Human::start()
 {
-    std::mutex m;
-    for(int i = 0; i < 10; i++) {
-        m.lock();
-        std::cout << name << " " << i << std::endl;
-        m.unlock();
-    }
-
+    logger_->info(name + " started work");
     std::shared_ptr<Place> place = places.front();
     place->start();
 }

@@ -17,11 +17,11 @@ void Restaurant::work(int worker) {
     while(open) {
         if(worker == 0) {
             while (!tables.empty()) {
-                table *t = tables.back();
+                auto t = tables.back();
                 tables.pop();
                 if (!t->menuTaken) {
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
+                    //std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
                 }
             }
         }
@@ -37,7 +37,7 @@ void Restaurant::start() {
     
     if(freeTables <= 0) m.lock();
 
-    table *t;
+    auto t = std::make_shared<table>();
     t->humanNumber = tableCounter - freeTables;
     t->menuTaken = false;
     t->mealReady = false;

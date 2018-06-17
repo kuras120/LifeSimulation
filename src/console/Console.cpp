@@ -56,7 +56,7 @@ void Console::refreshWin() {
 
     attron(COLOR_PAIR(3));
     for (auto poss: toClear) {
-        mvprintw(poss.first, poss.second, "H");
+        mvprintw(poss.first, poss.second, " ");
     }
 
     toClear.clear();

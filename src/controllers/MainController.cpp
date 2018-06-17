@@ -10,7 +10,7 @@ MainController::MainController()
 	initialiseLoggers();
 	initialisePlaces();
 	initialiseConsole();
-	initialiseHumans(1);
+	initialiseHumans(4);
 }
 
 void MainController::initialiseLoggers()
@@ -44,9 +44,8 @@ void MainController::initialiseHumans(unsigned humanCount)
 	logger_->info("Initialising new humans");
 	while ( humanList_.size() != humanCount )
 	{
-		humanList_.emplace_back(places, std::to_string(i));
+		humanList_.emplace_back(places, std::to_string(i), logger_);
         i++;
-
 	}
 	logger_->info("Initialised " + std::to_string(humanList_.size()) + " humans");
 }
