@@ -10,8 +10,9 @@
 
 class Restaurant: public Place {
 public:
-    void start() override;
+    Restaurant();
 
+    void start() override;
 };
 
 

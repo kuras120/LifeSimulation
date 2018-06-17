@@ -27,7 +27,7 @@ ADD_EXECUTABLE(LifeSimulation
         src/threads/include/Human.hpp
         src/places/Place.cpp
         src/places/include/Place.hpp
-        src/places/Restaurant.cpp src/places/include/Restaurant.h)
+        src/places/Restaurant.cpp src/places/include/Restaurant.h src/threads/IHuman.h)
 
 FIND_PACKAGE(Curses REQUIRED)
 FIND_PACKAGE(Threads REQUIRED)

@@ -4,6 +4,8 @@
 
 #include "Restaurant.h"
 
+Restaurant::Restaurant() {}
+
 void Restaurant::start() {
-    Place::start();
+
 }

@@ -3,8 +3,32 @@
 //
 
 #include <Human.hpp>
+#include <iostream>
+
+Human::Human(std::list<std::shared_ptr<Place>> places, std::string name) {
+    this->places = places;
+    this->name = name;
+}
 
 void Human::start()
 {
+    for(int i = 0; i < 10; i++) {
+        std::cout << name << " " << i;
+    }
+}
 
+int Human::getSaturation() {
+    return this->saturation;
+}
+
+void Human::setSaturation(int level) {
+    this->saturation = level;
+}
+
+int Human::getFatigue() {
+    return this->fatigue;
+}
+
+void Human::setFatigue(int level) {
+    this->fatigue = level;
 }

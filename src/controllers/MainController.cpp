@@ -1,5 +1,6 @@
 #include <MainController.hpp>
 #include <spdlog/spdlog.h>
+#include <Restaurant.h>
 
 MainController::MainController()
 		: logger_(spdlog::basic_logger_mt("main", "dump.log"))
@@ -31,10 +32,18 @@ MainController::~MainController()
 
 void MainController::initialiseHumans(unsigned humanCount)
 {
+    std::list<std::shared_ptr<Place>> places;
+    std::shared_ptr<Place> restaurant = std::make_shared<Restaurant>();
+
+    places.push_back(restaurant);
+
+    int i = 0;
 	logger_->info("Initialising new humans");
 	while ( humanList_.size() != humanCount )
 	{
-		humanList_.emplace_back();
+		humanList_.emplace_back(places, "human " + i);
+        i++;
+
 	}
 	logger_->info("Initialised " + std::to_string(humanList_.size()) + " humans");
 }
