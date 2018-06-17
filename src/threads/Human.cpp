@@ -4,7 +4,6 @@
 
 #include <Human.hpp>
 #include <iostream>
-#include <mutex>
 
 Human::Human(std::list<std::shared_ptr<Place>> places, std::string name) {
     this->places = places;
@@ -19,6 +18,9 @@ void Human::start()
         std::cout << name << " " << i << std::endl;
         m.unlock();
     }
+
+    std::shared_ptr<Place> place = places.front();
+    place->start();
 }
 
 int Human::getSaturation() {
