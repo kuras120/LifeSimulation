@@ -35,7 +35,7 @@ void Restaurant::work(int worker) {
 }
 void Restaurant::start(Human *human) {
     std::mutex m;
-    human->GoTo(location_.first, location_.second);
+    human->GoTo(doors_.first, doors_.second);
     if(freeTables <= 0) m.lock();
 
     auto t = std::make_shared<table>();

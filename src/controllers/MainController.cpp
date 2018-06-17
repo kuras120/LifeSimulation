@@ -5,12 +5,13 @@
 MainController::MainController()
 		: logger_(spdlog::basic_logger_mt("main", "dump.log"))
 {
+
 	logger_->debug(std::string(__FUNCTION__) + " have been initialised.");
 
 	initialiseLoggers();
 	initialisePlaces();
-	initialiseConsole();
 	initialiseHumans(4);
+	initialiseConsole();
 }
 
 void MainController::initialiseLoggers()
@@ -83,7 +84,7 @@ void MainController::startHumans()
 }
 
 void MainController::initialiseConsole() {
-	console_= std::make_shared<Console>(this);
+	console_= std::make_shared<Console>(std::shared_ptr<MainController>(this));
 }
 
 std::shared_ptr<Restaurant> &MainController::getRestaurant() {

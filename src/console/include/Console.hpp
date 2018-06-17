@@ -16,7 +16,7 @@ class MainController;
 class Console {
 
 public:
-    Console(MainController *controller);
+    Console(std::shared_ptr<MainController> controller);
     ~Console();
     std::thread SpawnThread();
     void Stop();
@@ -30,7 +30,7 @@ private:
     std::list<std::pair<int, int>> toClear;
     bool isRunning;
     WINDOW * mainWin;
-    MainController *controller;
+    std::shared_ptr<MainController> controller_;
 };
 
 

@@ -9,6 +9,7 @@
 #include "../../console/include/Console.hpp"
 
 class MainController
+		: public std::enable_shared_from_this<MainController>
 {
 	//places
 	std::shared_ptr<Restaurant> restaurant_;

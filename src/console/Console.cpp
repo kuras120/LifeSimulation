@@ -5,7 +5,8 @@
 #include "include/Console.hpp"
 #include "MainController.hpp"
 
-Console::Console(MainController *controller) : controller(controller) {
+Console::Console(std::shared_ptr<MainController> controller) {
+    controller_ = controller;
     initializeWindow();
 }
 
@@ -30,7 +31,7 @@ void Console::initializeWindow() {
     initializePlaces();
     refresh();
 
-    controller->getLogger()->info("Initialised console");
+    controller_->getLogger()->info("Initialised console");
 }
 
 Console::~Console() {
@@ -41,7 +42,7 @@ Console::~Console() {
 void Console::initializePlaces() {
     attron(COLOR_PAIR(1));
 
-    std::pair<int, int> restLoc = controller->getRestaurant()->getLocation();
+    std::pair<int, int> restLoc = controller_->getRestaurant()->getLocation();
     mvprintw(restLoc.first, restLoc.second, "####### ########");
     for (int i = 1; i < 7; ++i) {
         mvprintw(restLoc.first + i, restLoc.second, "#              #");
@@ -61,15 +62,15 @@ void Console::refreshWin() {
 
     toClear.clear();
     attron(COLOR_PAIR(2));
-    for ( auto human : *(controller->getHumanList()) )
+    for ( auto human : *(controller_->getHumanList()) )
     {
         std::pair<int, int> poss = human->GetPossition();
-        controller->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
+        controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
 
         toClear.push_back(poss);
         mvprintw(poss.first, poss.second, "H");
     }
-    controller->getLogger()->info("Console refreshed");
+    controller_->getLogger()->info("Console refreshed");
 }
 
 
