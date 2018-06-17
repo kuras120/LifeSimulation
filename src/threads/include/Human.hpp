@@ -5,6 +5,7 @@
 
 #include <thread>
 #include <Place.hpp>
+#include <mutex>
 #include "../IHuman.h"
 
 class Human: public IHuman

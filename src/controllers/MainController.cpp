@@ -44,7 +44,7 @@ void MainController::initialiseHumans(unsigned humanCount)
 	logger_->info("Initialising new humans");
 	while ( humanList_.size() != humanCount )
 	{
-		humanList_.emplace_back(places, "human " + i);
+		humanList_.emplace_back(places, std::to_string(i));
         i++;
 
 	}

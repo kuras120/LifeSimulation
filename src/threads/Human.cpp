@@ -7,15 +7,21 @@
 
 Human::Human(std::list<std::shared_ptr<Place>> places, std::string name) {
     this->places = places;
-    this->name = name;
+    this->name = "human"  + name;
     position_ = std::pair<int, int>(12, 10);
 }
 
 void Human::start()
 {
+    std::mutex m;
     for(int i = 0; i < 10; i++) {
-        std::cout << name << " " << i;
+        m.lock();
+        std::cout << name << " " << i << std::endl;
+        m.unlock();
     }
+
+    std::shared_ptr<Place> place = places.front();
+    place->start();
 }
 
 int Human::getSaturation() {
