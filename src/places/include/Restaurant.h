@@ -9,10 +9,12 @@
 #include "Place.hpp"
 
 class Restaurant: public Place {
+    std::pair <int, int> location_ = std::make_pair(15, 30);
 public:
     Restaurant();
 
     void start() override;
+    std::pair <int, int> getLocation();
 };
 
 

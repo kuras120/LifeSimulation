@@ -8,7 +8,9 @@ MainController::MainController()
 	logger_->debug(std::string(__FUNCTION__) + " have been initialised.");
 
 	initialiseLoggers();
-	initialiseHumans(15);
+	initialisePlaces();
+	initialiseConsole();
+	//initialiseHumans(15);
 }
 
 void MainController::initialiseLoggers()
@@ -48,9 +50,9 @@ void MainController::initialiseHumans(unsigned humanCount)
 	logger_->info("Initialised " + std::to_string(humanList_.size()) + " humans");
 }
 
-void MainController::start()
-{
+void MainController::start() {
 	startHumans();
+	consoleThread_ = console_->SpawnThread();
 }
 
 void MainController::cleanUp()
@@ -60,6 +62,7 @@ void MainController::cleanUp()
 	{
 		thread.join();
 	}
+	consoleThread_.join();
 	logger_->info("All threads stopped");
 }
 
@@ -73,4 +76,16 @@ void MainController::startHumans()
 				);
 	}
 	logger_->info("All threads ready");
+}
+
+void MainController::initialiseConsole() {
+	console_= std::make_shared<Console>(this);
+}
+
+const std::shared_ptr<Restaurant> &MainController::getRestaurant() const {
+	return restaurant_;
+}
+
+void MainController::initialisePlaces() {
+	restaurant_= std::make_shared<Restaurant>();
 }

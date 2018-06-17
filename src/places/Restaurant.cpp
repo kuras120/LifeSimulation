@@ -9,3 +9,7 @@ Restaurant::Restaurant() {}
 void Restaurant::start() {
 
 }
+
+std::pair<int, int> Restaurant::getLocation() {
+    return location_;
+}
