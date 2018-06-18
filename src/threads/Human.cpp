@@ -17,7 +17,7 @@ void Human::start()
 {
     logger_->info(name + " started work");
     std::shared_ptr<Place> place = places.front();
-    place->start(std::shared_ptr<Human>(this));
+    place->start(shared_from_this());
 }
 
 int Human::getSaturation() {

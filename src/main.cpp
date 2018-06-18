@@ -3,8 +3,8 @@
 #include <MainController.hpp>
 
 int main() {
-	std::shared_ptr<MainController> controller = std::make_shared<MainController>();
-	controller->start();
-	std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+	MainController controller;
+	controller.start();
+	std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 	return EXIT_SUCCESS;
 }

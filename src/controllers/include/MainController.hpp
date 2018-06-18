@@ -13,6 +13,7 @@ class MainController
 		: public std::enable_shared_from_this<MainController>
 {
 	//places
+    std::list<std::shared_ptr<Place>> places;
 	std::shared_ptr<Restaurant> restaurant_;
 	std::shared_ptr<Basketball> basketball_;
 public:
