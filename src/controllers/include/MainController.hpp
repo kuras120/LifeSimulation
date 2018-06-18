@@ -18,11 +18,12 @@ public:
 	std::shared_ptr<spdlog::logger> &getLogger();
 	std::shared_ptr<std::list<std::shared_ptr<Human>>> &getHumanList();
 
+
 private:
 
 	std::shared_ptr<spdlog::logger> logger_;
 	std::shared_ptr<Console> console_;
-
+    std::list<std::shared_ptr<Place>> places;
 	std::shared_ptr<std::list<std::shared_ptr<Human>>> humanList_;
 	std::vector<std::thread> humanThreadList_;
 	std::thread consoleThread_;

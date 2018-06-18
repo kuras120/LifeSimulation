@@ -28,9 +28,10 @@ private:
     std::thread waiter;
     std::thread cook;
     bool open = true;
+    std::shared_ptr<spdlog::logger> logger_;
 
 public:
-    Restaurant();
+    Restaurant(std::shared_ptr<spdlog::logger> logger);
     void work(int worker);
     void start(std::shared_ptr<Human> human);
     std::pair <int, int> getLocation();

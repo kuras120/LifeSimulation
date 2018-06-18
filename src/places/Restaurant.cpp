@@ -7,7 +7,7 @@
 #include <Human.hpp>
 #include "Restaurant.h"
 
-Restaurant::Restaurant() {
+Restaurant::Restaurant(std::shared_ptr<spdlog::logger> logger) {
     tableCounter = 10;
     freeTables = 10;
     waiter = std::thread(std::bind(&Restaurant::work,this, 0));
@@ -23,14 +23,16 @@ void Restaurant::work(int worker) {
                     tables.pop();
                     t->menuTaken = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
+                    logger_->info("Menu przyniesione dla: " + t->humanNumber);
+                    //std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
                     tables.push(t);
                 }
                 else if(t->mealReady) {
                     tables.pop();
                     t->mealTaken = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    std::cout << "Jedzenie przyniesione i zjedzone przez " << t->humanNumber << std::endl;
+                    logger_->info("Jedzenie przyniesione i zjedzone przez " + t->humanNumber);
+                    //std::cout << "Jedzenie przyniesione i zjedzone przez " << t->humanNumber << std::endl;
                 }
             }
             else {
@@ -38,7 +40,8 @@ void Restaurant::work(int worker) {
                     tables.pop();
                     t->mealReady = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    std::cout << "Posilek zrobiony dla: " << t->humanNumber << std::endl;
+                    logger_->info("Posilek zrobiony dla: " + t->humanNumber);
+                    //std::cout << "Posilek zrobiony dla: " << t->humanNumber << std::endl;
                     tables.push(t);
 
                 }
@@ -54,7 +57,6 @@ void Restaurant::start(std::shared_ptr<Human> human) {
     human->GoTo(doors_.first, doors_.second);
 
     m.lock();
-
     auto t = std::make_shared<table>();
     t->humanNumber = tableCounter - freeTables;
     t->menuTaken = false;
@@ -64,7 +66,7 @@ void Restaurant::start(std::shared_ptr<Human> human) {
 
     freeTables --;
     m.unlock();
-    while(!t->mealReady){
+    while(!t->mealTaken){
 
     }
     std::this_thread::sleep_for(std::chrono::seconds(2));

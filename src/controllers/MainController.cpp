@@ -35,12 +35,6 @@ MainController::~MainController()
 
 void MainController::initialiseHumans(unsigned humanCount)
 {
-    std::list<std::shared_ptr<Place>> places;
-
-    std::shared_ptr<Place> restaurant = std::make_shared<Restaurant>();
-
-    places.push_back(restaurant);
-
     int i = 0;
 	logger_->info("Initialising new humans");
 	humanList_ = std::make_shared<std::list<std::shared_ptr<Human>>>();
@@ -92,8 +86,8 @@ std::shared_ptr<Restaurant> &MainController::getRestaurant() {
 }
 
 void MainController::initialisePlaces() {
-	restaurant_= std::make_shared<Restaurant>();
-
+	restaurant_= std::make_shared<Restaurant>(logger_);
+	places.push_back(restaurant_);
 	logger_->info("Initialised places");
 }
 
