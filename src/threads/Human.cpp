@@ -12,12 +12,14 @@ Human::Human(std::list<std::shared_ptr<Place>> places, std::string name) {
 
 void Human::start()
 {
+    /*
     std::mutex m;
     for(int i = 0; i < 10; i++) {
         m.lock();
         std::cout << name << " " << i << std::endl;
         m.unlock();
     }
+    */
 
     std::shared_ptr<Place> place = places.front();
     place->start();

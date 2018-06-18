@@ -15,17 +15,19 @@ Restaurant::Restaurant() {
 void Restaurant::work(int worker) {
     std::mutex m;
     while(open) {
-        if(worker == 0) {
-            while (!tables.empty()) {
+        while (!tables.empty()) {
+            if(worker == 0) {
                 table *t = tables.back();
                 tables.pop();
                 if (!t->menuTaken) {
                     std::this_thread::sleep_for(std::chrono::seconds(2));
                     std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
+                    tables.push(t);
                 }
             }
-        }
-        else {
+            else {
+                
+            }
         }
     }
     while(!open){
@@ -35,7 +37,7 @@ void Restaurant::work(int worker) {
 void Restaurant::start() {
     std::mutex m;
     
-    if(freeTables <= 0) m.lock();
+    m.lock();
 
     table *t;
     t->humanNumber = tableCounter - freeTables;
@@ -45,12 +47,13 @@ void Restaurant::start() {
 
     freeTables --;
 
+    m.unlock();
+
     while(!t->mealReady){
 
     }
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    if(freeTables <= 0) m.unlock();
     freeTables ++;
 
 
