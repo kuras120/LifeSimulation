@@ -9,12 +9,12 @@ const std::list<std::function<void()>> &Basketball::getTasks() {
 void Basketball::start(std::shared_ptr<Human> human) {
 
     std::unique_lock<std::mutex> lock(*(human->Mutex));
-    human->GoTo(this->doors_.first, this->doors_.second);
+    human->goTo(this->doors_.first, this->doors_.second);
     goToPlace(human);
     (human->ConditionVariable)->wait(lock);
     human->goToTarget();
-    logger_->info(human->GetName() + " wychodzi z boiska");
-    human->GoTo(doors_.first, doors_.second);
+    logger_->info(human->getName() + " wychodzi z boiska");
+    human->goTo(doors_.first, doors_.second);
     human->start();
 }
 
@@ -47,7 +47,7 @@ std::shared_ptr<std::vector<std::shared_ptr<std::pair<int, int>>>> Basketball::g
 
 void Basketball::goToPlace(std::shared_ptr<Human> human) {
     {
-        logger_->info(human->GetName() + " wszedl na teren boiska");
+        logger_->info(human->getName() + " wszedl na teren boiska");
         std::lock_guard<std::mutex> lock_guard(mtx);
         if(*counter == 4) {
             std::unique_lock<std::mutex> unique_lock(lock);
@@ -56,30 +56,30 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
         (*counter)++;
         humans.push_back(human);
         if(availability->at(0)){
-            human->setTarger(placesToPlay_->at(0)->first, placesToPlay_->at(0)->second);
-            logger_->info(human->GetName() + " wchodzi na pozycje "
+            human->setTarget(placesToPlay_->at(0)->first, placesToPlay_->at(0)->second);
+            logger_->info(human->getName() + " wchodzi na pozycje "
                           + std::to_string(placesToPlay_->at(1)->first) + " "
                           + std::to_string(placesToPlay_->at(1)->second));
         } else if (availability->at(1)) {
-            human->setTarger(placesToPlay_->at(1)->first, placesToPlay_->at(1)->second);
-            logger_->info(human->GetName() + " wchodzi na pozycje "
+            human->setTarget(placesToPlay_->at(1)->first, placesToPlay_->at(1)->second);
+            logger_->info(human->getName() + " wchodzi na pozycje "
                           + std::to_string(placesToPlay_->at(2)->first) + " "
                           + std::to_string(placesToPlay_->at(2)->second));
         } else if (availability->at(2)) {
-            human->setTarger(placesToPlay_->at(2)->first, placesToPlay_->at(2)->second);
-            logger_->info(human->GetName() + " wchodzi na pozycje "
+            human->setTarget(placesToPlay_->at(2)->first, placesToPlay_->at(2)->second);
+            logger_->info(human->getName() + " wchodzi na pozycje "
                           + std::to_string(placesToPlay_->at(2)->first) + " "
                           + std::to_string(placesToPlay_->at(2)->second));
         } else if (availability->at(3)) {
-            human->setTarger(placesToPlay_->at(3)->first, placesToPlay_->at(3)->second);
-            logger_->info(human->GetName() + " wchodzi na pozycje "
+            human->setTarget(placesToPlay_->at(3)->first, placesToPlay_->at(3)->second);
+            logger_->info(human->getName() + " wchodzi na pozycje "
                           + std::to_string(placesToPlay_->at(3)->first) + " "
                           + std::to_string(placesToPlay_->at(3)->second));
         }
 
 
         human->ConditionVariable->notify_one();
-        logger_->info(human->GetName() + " wchodzi na pozycje "
+        logger_->info(human->getName() + " wchodzi na pozycje "
                                          + std::to_string(placesToPlay_->at(0)->first) + " "
                                          + std::to_string(placesToPlay_->at(0)->second));
         if(*counter==4)

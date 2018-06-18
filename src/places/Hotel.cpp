@@ -13,6 +13,6 @@ std::pair<int, int> Hotel::getLocation() {
 }
 
 void Hotel::start(std::shared_ptr<Human> human) {
-    human->GoTo(10, 1);
+    human->goTo(10, 1);
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }

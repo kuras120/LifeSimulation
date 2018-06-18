@@ -33,24 +33,24 @@ void Restaurant::work(int worker) {
                     auto t1 = tablesWaiter->front();
                     if (!t1->menuTaken) {
                         tablesWaiter->pop();
-                        waiter->GoTo(t1->location.first+1, t1->location.second+1);
+                        waiter->goTo(t1->location.first + 1, t1->location.second + 1);
                         std::this_thread::sleep_for(std::chrono::milliseconds(500));
-                        waiter->GoTo(location_.first+6, location_.second+6);
+                        waiter->goTo(location_.first + 6, location_.second + 6);
                         t1->menuTaken = true;
 
                         std::string text = "Menu przyniesione dla: ";
-                        text += (t1->human->GetName());
+                        text += (t1->human->getName());
                         logger_->info(text);
                         tablesCook->push(t1);
 
                     } else if (t1->mealReady) {
                         tablesWaiter->pop();
                         t1->mealTaken = true;
-                        waiter->GoTo(t1->location.first+1, t1->location.second+1);
+                        waiter->goTo(t1->location.first + 1, t1->location.second + 1);
                         std::this_thread::sleep_for(std::chrono::milliseconds(300));
                         std::string text = "Jedzenie przyniesione dla ";
 
-                        text += (t1->human->GetName());
+                        text += (t1->human->getName());
                         logger_->info(text);
                         tablesCook->push(t1);
                         t1->human->ConditionVariable->notify_one();
@@ -76,7 +76,7 @@ void Restaurant::work(int worker) {
                         t2->mealReady = true;
                         std::this_thread::sleep_for(std::chrono::seconds(2));
                         std::string text = "Posilek zrobiony dla: ";
-                        text += (t2->human->GetName());
+                        text += (t2->human->getName());
                         logger_->info(text);
                         tablesWaiter->push(t2);
                     }
@@ -92,20 +92,24 @@ void Restaurant::work(int worker) {
 void Restaurant::start(std::shared_ptr<Human> human) {
     std::string text;
 
-    human->GoTo(doors_.first, doors_.second);
-    text =  human->GetName() + " wszedl do restauracji";
+    human->goTo(doors_.first, doors_.second);
+    human->setColor(RED);
+    text =  human->getName() + " wszedl do restauracji";
     logger_->info(text);
     addHumanToQueue(human);
 
     std::unique_lock<std::mutex> lock(*(human->Mutex));
+    human->setColor(YELLOW);
     (human->ConditionVariable)->wait(lock);
-    text =  human->GetName() + " idzie do stolika";
+    text =  human->getName() + " idzie do stolika";
     human->goToTarget();
     (human->ConditionVariable)->wait(lock);
-    text =  human->GetName() + " je";
+
+    text =  human->getName() + " je";
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    text =  human->GetName() + " idzie do wyjscia restauracji";
-    human->GoTo(doors_.first, doors_.second);
+    text =  human->getName() + " idzie do wyjscia restauracji";
+    human->goTo(doors_.first, doors_.second);
+    human->setColor(WHITE);
 }
 
 std::pair<int, int> Restaurant::getLocation() {
@@ -129,8 +133,8 @@ void Restaurant::queueWorker() {
                     freeTab->human = human;
                     tablesWaiter->push(freeTab);
                     queue->pop();
-                    logger_->info(freeTab->human->GetName() + " zajal stolik");
-                    human->setTarger(freeTab->location.first-1, freeTab->location.second-1);
+                    logger_->info(freeTab->human->getName() + " zajal stolik");
+                    human->setTarget(freeTab->location.first - 1, freeTab->location.second - 1);
                     human->ConditionVariable->notify_one();
                 }
             }

@@ -20,10 +20,12 @@ void Console::initializeWindow() {
     }
 
     start_color();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_WHITE, COLOR_BLACK);
-    init_pair(3, COLOR_BLACK, COLOR_BLACK);
-    init_pair(4, COLOR_GREEN, COLOR_BLACK);
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLACK);
+    init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    init_pair(4, COLOR_BLUE, COLOR_BLACK);
+    init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(6, COLOR_BLACK, COLOR_BLACK);
 
     initializePlaces();
     refresh();
@@ -36,7 +38,7 @@ Console::~Console() {
 }
 
 void Console::initializePlaces() {
-    attron(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
 
     std::pair<int, int> restLoc = controller_->getRestaurant()->getLocation();
     mvprintw(restLoc.first, restLoc.second, "#              #");
@@ -50,7 +52,7 @@ void Console::initializePlaces() {
         mvprintw(table->location.first, table->location.second, "O");
     }
 
-    attron(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
     restLoc = controller_->getBasketball()->getLocation();
     mvprintw(restLoc.first, restLoc.second, "#######");
     for (int i = 1; i < 6; ++i) {
@@ -58,10 +60,10 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+6, restLoc.second, "### ###");
 
-    attron(COLOR_PAIR(4));
-    for(auto placeToPlay: *(controller_->getBasketball()->getPlacesToPlay())){
-        mvprintw(placeToPlay->first, placeToPlay->second, "O");
-    }
+    //attron(COLOR_PAIR(4));
+    //for(auto placeToPlay: *(controller_->getBasketball()->getPlacesToPlay())){
+    //    mvprintw(placeToPlay->first, placeToPlay->second, "O");
+    //}
 
     refresh();
 
@@ -69,36 +71,35 @@ void Console::initializePlaces() {
 
 void Console::refreshWin() {
 
-    attron(COLOR_PAIR(3));
+    attron(COLOR_PAIR(6));
     for (auto poss: toClear) {
         mvprintw(poss.first, poss.second, " ");
     }
-    attron(COLOR_PAIR(4));
+
+    attron(COLOR_PAIR(1));
     (controller_->getBasketball()->getScore());
 
     std::string buff = std::to_string(controller_->getBasketball()->getScore()->first)+
             ":"+std::to_string(controller_->getBasketball()->getScore()->second);
-        mvprintw((controller_->getBasketball()->getLocation().first-1) ,
+        mvprintw((controller_->getBasketball()->getLocation().first -1),
                  (controller_->getBasketball()->getLocation().second + 2),
                 buff.c_str());
 
-
     toClear.clear();
-    attron(COLOR_PAIR(2));
     for ( auto human : *(controller_->getHumanList()) )
     {
-        std::pair<int, int> poss = human->GetPossition();
-        //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
-
+        std::pair<int, int> poss = human->getPossition();
+        //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second))
+        attron(COLOR_PAIR(human->getColor()));
         toClear.push_back(poss);
         mvprintw(poss.first, poss.second, "H");
     }
-    attron(COLOR_PAIR(4));
-    std::pair<int, int> poss = controller_->getRestaurant()->getWaiter()->GetPossition();
-    toClear.push_back(poss);
-    //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
 
+    std::pair<int, int> poss = controller_->getRestaurant()->getWaiter()->getPossition();
+    attron(COLOR_PAIR(controller_->getRestaurant()->getWaiter()->getColor()));
+    toClear.push_back(poss);
     mvprintw(poss.first, poss.second, "W");
+    move(1,1);
 }
 
 

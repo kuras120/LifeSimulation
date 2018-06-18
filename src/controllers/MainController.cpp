@@ -42,7 +42,7 @@ void MainController::initialiseHumans(unsigned humanCount)
 	{
 		humanList_->emplace_back(
 				std::make_shared<Human>(places, std::to_string(i), logger_));
-		logger_->info(humanList_->back()->GetName());
+		logger_->info(humanList_->back()->getName());
         i++;
 	}
 	logger_->info("Initialised " + std::to_string(humanList_->size()) + " humans");
@@ -71,7 +71,7 @@ void MainController::startHumans()
 	for ( auto& human : *humanList_ )
 	{
 		humanThreadList_.emplace_back(
-				human->SpawnThread()
+                human->spawnThread()
 				);
 	}
 	logger_->info("All threads ready");
@@ -94,6 +94,7 @@ void MainController::initialisePlaces() {
 	restaurant_= std::make_shared<Restaurant>(logger_);
     basketball_ = std::make_shared<Basketball>(logger_);
 	hotel_ = std::make_shared<Hotel>(logger_);
+
 	places.push_back(restaurant_);
 	places.push_back(hotel_);
 	places.push_back(basketball_);
