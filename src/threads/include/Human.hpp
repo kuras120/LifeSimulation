@@ -54,9 +54,6 @@ public:
     Color getColor();
     void setColor(Color color);
 
-
-
-
     // To delete
     std::shared_ptr<std::mutex> Mutex;
     std::shared_ptr<std::condition_variable> ConditionVariable;

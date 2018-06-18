@@ -174,7 +174,7 @@ void Restaurant::initializeTables() {
     tab2->mealTaken=false;
     tab2->menuTaken=false;
     tab2->human=nullptr;
-    tab2->location=std::pair<int,int>(location_.first+4, location_.second+2);
+    tab2->location=std::pair<int,int>(location_.first+5, location_.second+2);
     tables->emplace_back(tab2);
 
     auto tab3 = std::make_shared<table>();
@@ -190,7 +190,7 @@ void Restaurant::initializeTables() {
     tab4->mealTaken=false;
     tab4->menuTaken=false;
     tab4->human= nullptr;
-    tab4->location=std::pair<int,int>(location_.first+4, location_.second+5);
+    tab4->location=std::pair<int,int>(location_.first+5, location_.second+5);
     tables->emplace_back(tab4);
 
     auto tab5 = std::make_shared<table>();
@@ -206,7 +206,7 @@ void Restaurant::initializeTables() {
     tab6->mealTaken=false;
     tab6->menuTaken=false;
     tab6->human= nullptr;
-    tab6->location=std::pair<int,int>(location_.first+4, location_.second+8);
+    tab6->location=std::pair<int,int>(location_.first+5, location_.second+8);
     tables->emplace_back(tab6);
 
     auto tab7 = std::make_shared<table>();
@@ -222,6 +222,6 @@ void Restaurant::initializeTables() {
     tab8->mealTaken=false;
     tab8->menuTaken=false;
     tab8->human= nullptr;
-    tab8->location=std::pair<int,int>(location_.first+4, location_.second+11);
+    tab8->location=std::pair<int,int>(location_.first+5, location_.second+11);
     tables->emplace_back(tab8);
 }

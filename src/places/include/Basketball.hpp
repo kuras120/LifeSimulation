@@ -12,11 +12,20 @@ class Basketball : public Place{
     std::shared_ptr<std::vector<std::shared_ptr<std::pair<int, int>>>> placesToPlay_;
     std::shared_ptr<std::vector<bool>> availability;
     std::shared_ptr<spdlog::logger> logger_;
-    std::mutex mtx;
-    std::mutex lock;
-    std::condition_variable condition_variable;
-    std::shared_ptr<int> counter;
-    std::shared_ptr<std::pair<int, int>> score;
+
+    bool started_;
+public:
+    bool isStarted_() const;
+
+private:
+    std::mutex mtx_;
+    std::mutex selectPlaceMtx_;
+    std::mutex waitForPlayersMtx_;
+    std::condition_variable conditionVariableQueue_;
+    std::condition_variable conditionVariableMatch_;
+    std::shared_ptr<int> counter_;
+    std::shared_ptr<int> playerCounter_;
+    std::shared_ptr<std::pair<int, int>> score_;
 public:
     const std::shared_ptr<std::pair<int, int>> &getScore() const;
 

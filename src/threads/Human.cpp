@@ -41,6 +41,7 @@ void Human::goTo(int x, int y) {
         position_.first+=xInc;
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
+
 }
 
 std::thread Human::spawnThread() {
