@@ -1,6 +1,4 @@
-//
-// Created by oem on 6/18/18.
-//
+
 
 #include "Basketball.hpp"
 
@@ -15,7 +13,6 @@ void Basketball::start(std::shared_ptr<Human> human) {
     goToPlace(human);
     (human->ConditionVariable)->wait(lock);
     human->goToTarget();
-    (human->ConditionVariable)->wait(lock);
     logger_->info(human->GetName() + " wychodzi z boiska");
     human->GoTo(doors_.first, doors_.second);
     human->start();
@@ -81,7 +78,6 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
         }
 
 
-        human->ConditionVariable->notify_one();
         human->ConditionVariable->notify_one();
         logger_->info(human->GetName() + " wchodzi na pozycje "
                                          + std::to_string(placesToPlay_->at(0)->first) + " "

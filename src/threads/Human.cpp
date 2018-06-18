@@ -1,7 +1,3 @@
-//
-// Created by root on 16.06.18.
-//
-
 #include <Human.hpp>
 #include <iostream>
 #include <Place.hpp>
@@ -17,12 +13,15 @@ Human::Human(std::list<std::shared_ptr<Place>> places, std::string name, std::sh
 
 void Human::start()
 {
-    logger_->info(name + " started work");
-    std::shared_ptr<Place> place = places.front();
-    place->start(shared_from_this());
-    places.pop_front();
-    place = places.front();
-    place->start(shared_from_this());
+    do {
+        logger_->info(name + " started work");
+        std::shared_ptr<Place> place = places.front();
+        place->start(shared_from_this());
+        places.pop_front();
+        places.push_back(place);
+        place = places.front();
+        place->start(shared_from_this());
+    } while (true);
 }
 
 int Human::getSaturation() {

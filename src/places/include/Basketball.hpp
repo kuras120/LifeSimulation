@@ -1,6 +1,4 @@
-//
-// Created by oem on 6/18/18.
-//
+
 
 #ifndef LIFESIMULATION_BASKETBALL_H
 #define LIFESIMULATION_BASKETBALL_H

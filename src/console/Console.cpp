@@ -1,6 +1,3 @@
-//
-// Created by oem on 6/17/18.
-//
 
 #include "include/Console.hpp"
 #include "MainController.hpp"
