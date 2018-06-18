@@ -10,8 +10,8 @@
 Restaurant::Restaurant(std::shared_ptr<spdlog::logger> logger) {
     tableCounter = 10;
     freeTables = 10;
-    waiter = std::thread(std::bind(&Restaurant::work,this, 0));
-    cook = std::thread(std::bind(&Restaurant::work,this, 1));
+    waiter = std::thread([this] {work(0);});
+    cook = std::thread([this] {work(1);});
     this->logger_ = logger;
 }
 Restaurant::~Restaurant() {
@@ -41,7 +41,7 @@ void Restaurant::work(int worker) {
                     text += std::to_string(t1->humanNumber);
                     logger_->info(text);
                     //std::cout << "Jedzenie przyniesione i zjedzone przez " << t->humanNumber << std::endl;
-                    tables.push(t1);
+                    //tables.push(t1);
                 }
             }
             else if(worker == 1){
