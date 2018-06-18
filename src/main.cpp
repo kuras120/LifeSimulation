@@ -5,6 +5,6 @@
 int main() {
 	MainController controller;
 	controller.start();
-	std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+	std::this_thread::sleep_for(std::chrono::milliseconds(20000));
 	return EXIT_SUCCESS;
 }

@@ -35,7 +35,6 @@ void Console::initializeWindow() {
 }
 
 Console::~Console() {
-    std::this_thread::sleep_for(std::chrono::seconds(4));
     endwin();
 }
 
@@ -49,6 +48,12 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+7, restLoc.second, "################");
 
+    attron(COLOR_PAIR(4));
+    for(auto table: *(controller_->getRestaurant()->getTables())){
+        mvprintw(table->location.first, table->location.second, "O");
+    }
+
+    attron(COLOR_PAIR(1));
     restLoc = controller_->getBasketball()->getLocation();
     mvprintw(restLoc.first, restLoc.second, "#######");
     for (int i = 1; i < 6; ++i) {
@@ -82,7 +87,12 @@ void Console::refreshWin() {
         toClear.push_back(poss);
         mvprintw(poss.first, poss.second, "H");
     }
-    //controller_->getLogger()->info("Console refreshed");
+    attron(COLOR_PAIR(4));
+    std::pair<int, int> poss = controller_->getRestaurant()->getWaiter()->GetPossition();
+    toClear.push_back(poss);
+    //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
+
+    mvprintw(poss.first, poss.second, "W");
 }
 
 

@@ -7,6 +7,8 @@
 #include <Place.hpp>
 
 Human::Human(std::list<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger) {
+    Mutex = std::make_shared<std::mutex>();
+    ConditionVariable = std::make_shared<std::condition_variable>();
     this->places = places;
     this->name = "human "  + name;
     this->logger_ = logger;
@@ -42,8 +44,11 @@ std::pair<int, int> Human::GetPossition() {
 
 void Human::GoTo(int x, int y) {
     int xInc = x>position_.first ? 1 : -1;
-
-    int yInc = y>position_.first ? 1 : -1;
+    if(x==position_.first)
+        xInc=0;
+    int yInc = y>position_.second ? 1 : -1;
+    if(y==position_.second)
+        yInc=0;
     while(y != position_.second)
     {
         position_.second+=yInc;
@@ -65,4 +70,14 @@ std::string Human::GetName() {
 std::thread Human::SpawnThread() {
     return std::thread([this] {
         this->start(); });
+}
+
+Human::Human(const std::string &name, const std::pair<int, int> &position_) : name(name), position_(position_) {}
+
+void Human::setTarger(int x, int y) {
+    this->target_=std::pair<int,int>(x,y);
+}
+
+void Human::goToTarget() {
+    GoTo(target_.first, target_.second);
 }
