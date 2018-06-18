@@ -1,6 +1,4 @@
-//
-// Created by wojtek on 17.06.18.
-//
+
 
 #include <iostream>
 #include <mutex>
@@ -32,7 +30,7 @@ void Restaurant::work(int worker) {
     while(isRunning) {
             if(worker == 0) {
                 if (tablesWaiter->size() > 0) {
-                    auto t1 = tablesWaiter->back();
+                    auto t1 = tablesWaiter->front();
                     if (!t1->menuTaken) {
                         tablesWaiter->pop();
                         waiter->GoTo(t1->location.first+1, t1->location.second+1);
@@ -56,9 +54,14 @@ void Restaurant::work(int worker) {
                         logger_->info(text);
                         tablesCook->push(t1);
                         t1->human->ConditionVariable->notify_one();
+                        t1->human = nullptr;
+                        t1->mealTaken=false;
+                        t1->menuTaken=false;
+                        t1->mealReady=false;
                     } else if(t1->mealTaken) {
                         tablesWaiter->pop();
-                        t1->human= nullptr;
+                        //t1->human->ConditionVariable->notify_one();
+                        t1->human = nullptr;
                         t1->mealTaken=false;
                         t1->menuTaken=false;
                         t1->mealReady=false;
@@ -67,7 +70,7 @@ void Restaurant::work(int worker) {
             }
             else if(worker == 1){
                 if(tablesCook->size()>0) {
-                    auto t2 = tablesCook->back();
+                    auto t2 = tablesCook->front();
                     if (t2->menuTaken && !t2->mealReady) {
                         tablesCook->pop();
                         t2->mealReady = true;

@@ -1,6 +1,4 @@
-//
-// Created by oem on 6/17/18.
-//
+
 
 #ifndef LIFESIMULATION_CONSOLE_H
 #define LIFESIMULATION_CONSOLE_H

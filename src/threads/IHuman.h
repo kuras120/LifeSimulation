@@ -1,6 +1,4 @@
-//
-// Created by wojtek on 17.06.18.
-//
+
 
 #ifndef LIFESIMULATION_IHUMAN_H
 #define LIFESIMULATION_IHUMAN_H

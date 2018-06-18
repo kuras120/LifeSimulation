@@ -1,6 +1,3 @@
-//
-// Created by wojtek on 17.06.18.
-//
 
 #ifndef LIFESIMULATION_RESTAURANT_H
 #define LIFESIMULATION_RESTAURANT_H
