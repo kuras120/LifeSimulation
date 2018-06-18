@@ -41,7 +41,7 @@ void Restaurant::work(int worker) {
                     text += std::to_string(t1->humanNumber);
                     logger_->info(text);
                     //std::cout << "Jedzenie przyniesione i zjedzone przez " << t->humanNumber << std::endl;
-                    //tables.push(t1);
+                    tables.push(t1);
                 }
             }
             else if(worker == 1){
