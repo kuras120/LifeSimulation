@@ -49,6 +49,18 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+7, restLoc.second, "################");
 
+    restLoc = controller_->getBasketball()->getLocation();
+    mvprintw(restLoc.first, restLoc.second, "#######");
+    for (int i = 1; i < 6; ++i) {
+        mvprintw(restLoc.first + i, restLoc.second, "#     #");
+    }
+    mvprintw(restLoc.first+6, restLoc.second, "### ###");
+
+    attron(COLOR_PAIR(4));
+    for(auto placeToPlay: *(controller_->getBasketball()->getPlacesToPlay())){
+        mvprintw(placeToPlay->first, placeToPlay->second, "O");
+    }
+
     refresh();
 
 }
