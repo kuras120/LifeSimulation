@@ -15,16 +15,18 @@ Restaurant::Restaurant(std::shared_ptr<spdlog::logger> logger) {
     this->logger_ = logger;
 }
 void Restaurant::work(int worker) {
-    std::mutex m;
     while(open) {
         while (!tables.empty()) {
+            m.lock();
             auto t = tables.back();
             if(worker == 0) {
                 if (!t->menuTaken) {
                     tables.pop();
                     t->menuTaken = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    logger_->info("Menu przyniesione dla: " + t->humanNumber);
+                    std::string text = "Menu przyniesione dla: ";
+                    text += std::to_string(t->humanNumber);
+                    logger_->info(text);
                     //std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
                     tables.push(t);
                 }
@@ -32,7 +34,9 @@ void Restaurant::work(int worker) {
                     tables.pop();
                     t->mealTaken = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    logger_->info("Jedzenie przyniesione i zjedzone przez " + t->humanNumber);
+                    std::string text = "Jedzenie przyniesione i zjedzone przez ";
+                    text += std::to_string(t->humanNumber);
+                    logger_->info(text);
                     //std::cout << "Jedzenie przyniesione i zjedzone przez " << t->humanNumber << std::endl;
                 }
             }
@@ -41,12 +45,15 @@ void Restaurant::work(int worker) {
                     tables.pop();
                     t->mealReady = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    logger_->info("Posilek zrobiony dla: " + t->humanNumber);
+                    std::string text = "Posilek zrobiony dla: ";
+                    text += std::to_string(t->humanNumber);
+                    logger_->info(text);
                     //std::cout << "Posilek zrobiony dla: " << t->humanNumber << std::endl;
                     tables.push(t);
 
                 }
             }
+            m.unlock();
         }
     }
     while(!open){
@@ -54,7 +61,7 @@ void Restaurant::work(int worker) {
     }
 }
 void Restaurant::start(std::shared_ptr<Human> human) {
-    std::mutex m;
+
     human->GoTo(doors_.first, doors_.second);
 
     m.lock();
@@ -67,13 +74,12 @@ void Restaurant::start(std::shared_ptr<Human> human) {
 
     freeTables --;
     m.unlock();
-    while(!t->mealTaken){
 
+    while(!t->mealTaken){
+        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
-    std::this_thread::sleep_for(std::chrono::seconds(2));
 
     freeTables ++;
-
 
 }
 

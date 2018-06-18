@@ -29,6 +29,7 @@ private:
     std::thread cook;
     bool open = true;
     std::shared_ptr<spdlog::logger> logger_;
+    std::mutex m;
 
 public:
     Restaurant(std::shared_ptr<spdlog::logger> logger);
