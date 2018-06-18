@@ -6,6 +6,7 @@
 #include <spdlog/logger.h>
 #include <Human.hpp>
 #include <Restaurant.h>
+#include <Basketball.hpp>
 #include "../../console/include/Console.hpp"
 
 class MainController
@@ -13,8 +14,10 @@ class MainController
 {
 	//places
 	std::shared_ptr<Restaurant> restaurant_;
+	std::shared_ptr<Basketball> basketball_;
 public:
 	std::shared_ptr<Restaurant> &getRestaurant();
+	std::shared_ptr<Basketball> &getBasketball();
 	std::shared_ptr<spdlog::logger> &getLogger();
 	std::shared_ptr<std::list<std::shared_ptr<Human>>> &getHumanList();
 

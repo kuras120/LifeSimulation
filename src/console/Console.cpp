@@ -49,6 +49,13 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+7, restLoc.second, "################");
 
+    restLoc = controller_->getBasketball()->getLocation();
+    mvprintw(restLoc.first, restLoc.second, "### ###");
+    for (int i = 1; i < 5; ++i) {
+        mvprintw(restLoc.first + i, restLoc.second, "#     #");
+    }
+    mvprintw(restLoc.first+5, restLoc.second, "### ###");
+
     refresh();
 
 }
@@ -65,7 +72,7 @@ void Console::refreshWin() {
     for ( auto human : *(controller_->getHumanList()) )
     {
         std::pair<int, int> poss = human->GetPossition();
-        controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
+        //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
 
         toClear.push_back(poss);
         mvprintw(poss.first, poss.second, "H");

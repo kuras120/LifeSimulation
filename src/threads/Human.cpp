@@ -47,13 +47,13 @@ void Human::GoTo(int x, int y) {
     while(y != position_.second)
     {
         position_.second+=yInc;
-        logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
+        //logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
     while(x != position_.first)
     {
         position_.first+=xInc;
-        logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
+        //logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }

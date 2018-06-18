@@ -10,7 +10,7 @@
 class Place {
     std::list<std::function<void()>> tasks_;
 public:
-    std::list<std::function<void()>> const& getTasks();
-
+    virtual std::list<std::function<void()>> const& getTasks();
+    virtual std::pair <int, int> getLocation() = 0;
     virtual void start(std::shared_ptr<Human> human) = 0;
 };
