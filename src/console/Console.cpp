@@ -42,7 +42,7 @@ void Console::initializePlaces() {
     attron(COLOR_PAIR(1));
 
     std::pair<int, int> restLoc = controller_->getRestaurant()->getLocation();
-    mvprintw(restLoc.first, restLoc.second, "####### ########");
+    mvprintw(restLoc.first, restLoc.second, "#              #");
     for (int i = 1; i < 7; ++i) {
         mvprintw(restLoc.first + i, restLoc.second, "#              #");
     }

@@ -22,7 +22,7 @@ struct table {
 
 class Restaurant: public Place {
     std::pair <int, int> location_ = std::make_pair(16, 30);
-    std::pair <int, int> doors_ = std::make_pair(17, 37);
+    std::pair <int, int> doors_ = std::make_pair(16, 37);
 private:
     void initializeTables();
     int freeTables;
