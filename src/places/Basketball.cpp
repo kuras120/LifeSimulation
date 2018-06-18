@@ -29,6 +29,7 @@ Basketball::Basketball(std::shared_ptr<spdlog::logger> logger) {
     score_ = std::make_shared<std::pair<int, int>>(std::pair<int, int>(0,0));
     counter_ = std::make_shared<int>(0);
     playerCounter_ = std::make_shared<int>(0);
+    started_ = std::make_shared<bool>(false);
 
     placesToPlay_ = std::make_shared<std::vector<std::shared_ptr<std::pair<int, int>>>>();
     placesToPlay_->push_back(std::make_shared<std::pair<int,int>>(std::pair<int, int>(location_.first+2, location_.second+2)));
@@ -55,9 +56,7 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
                 std::unique_lock<std::mutex> unique_lock(mtx_);
 
                 while (*counter_ == 4) conditionVariableQueue_.wait(unique_lock);
-
                 {
-
                     std::lock_guard<std::mutex> lockGuard(selectPlaceMtx_);
                     (*counter_)++;
 
@@ -103,8 +102,9 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
                     } else {
                         waitForPlayersMtx_.unlock();
 
-                        while ((*playerCounter_ )!=0)
+                        while (!(started_))
                             conditionVariableMatch_.wait(unique_lock);
+
                         human->setColor(RED);
                         conditionVariableMatch_.wait(unique_lock);
                         human->setColor(WHITE);
@@ -120,14 +120,10 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
 void Basketball::match() {
     logger_->info("mecz sie rozpoczal");
     *playerCounter_=0;
-    started_=true;
-    conditionVariableMatch_.notify_all();
-    conditionVariableMatch_.notify_all();
-
-    conditionVariableMatch_.notify_all();
+    (*started_)=true;
     conditionVariableMatch_.notify_all();
     do{
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         if(time(0)%2) {
             score_->first++;
         } else
@@ -143,7 +139,7 @@ void Basketball::match() {
     availability->at(1) = true;
     availability->at(2) = true;
     availability->at(3) = true;
-    started_=false;
+    (*started_)=false;
 }
 
 const std::shared_ptr<std::pair<int, int>> &Basketball::getScore() const {
@@ -151,5 +147,5 @@ const std::shared_ptr<std::pair<int, int>> &Basketball::getScore() const {
 }
 
 bool Basketball::isStarted_() const {
-    return started_;
+    return *started_;
 }

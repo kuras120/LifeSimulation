@@ -13,7 +13,7 @@ class Basketball : public Place{
     std::shared_ptr<std::vector<bool>> availability;
     std::shared_ptr<spdlog::logger> logger_;
 
-    bool started_;
+    std::shared_ptr<bool> started_;
 public:
     bool isStarted_() const;
 
