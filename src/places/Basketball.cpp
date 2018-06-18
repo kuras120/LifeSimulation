@@ -18,7 +18,12 @@ std::pair<int, int> Basketball::getLocation() {
 
 Basketball::Basketball() {
     placesToPlay_ = std::make_shared<std::list<std::shared_ptr<std::pair<int, int>>>>();
-    //std::make_shared(std::pair<int,int>());
-    //placesToPlay_->emplace_back(std::make_shared(std::pair<int, int>(3, 4)));
+    placesToPlay_->emplace_back(std::make_shared<std::pair<int,int>>(std::pair<int, int>(location_.first+2, location_.second+2)));
+    placesToPlay_->emplace_back(std::make_shared<std::pair<int,int>>(std::pair<int, int>(location_.first+4, location_.second+2)));
+    placesToPlay_->emplace_back(std::make_shared<std::pair<int,int>>(std::pair<int, int>(location_.first+2, location_.second+4)));
+    placesToPlay_->emplace_back(std::make_shared<std::pair<int,int>>(std::pair<int, int>(location_.first+4, location_.second+4)));
+}
 
+std::shared_ptr<std::list<std::shared_ptr<std::pair<int, int>>>> Basketball::getPlacesToPlay() {
+    return placesToPlay_;
 }

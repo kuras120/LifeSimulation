@@ -56,6 +56,10 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+5, restLoc.second, "### ###");
 
+    for(auto placeToPlay: *(controller_->getBasketball()->getPlacesToPlay())){
+
+    }
+
     refresh();
 
 }

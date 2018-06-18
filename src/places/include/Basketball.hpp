@@ -17,6 +17,7 @@ public:
     Basketball();
 
     std::pair<int, int> getLocation() override;
+    std::shared_ptr<std::list<std::shared_ptr<std::pair<int, int>>>> getPlacesToPlay();
 
     const std::list<std::function<void()>> &getTasks() override;
 
