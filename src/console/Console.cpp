@@ -65,12 +65,12 @@ void Console::refreshWin() {
     for ( auto human : *(controller_->getHumanList()) )
     {
         std::pair<int, int> poss = human->GetPossition();
-        controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
+        //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second));
 
         toClear.push_back(poss);
         mvprintw(poss.first, poss.second, "H");
     }
-    controller_->getLogger()->info("Console refreshed");
+    //controller_->getLogger()->info("Console refreshed");
 }
 
 
