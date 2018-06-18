@@ -12,6 +12,7 @@ Restaurant::Restaurant(std::shared_ptr<spdlog::logger> logger) {
     freeTables = 10;
     waiter = std::thread(std::bind(&Restaurant::work,this, 0));
     cook = std::thread(std::bind(&Restaurant::work,this, 1));
+    this->logger_ = logger;
 }
 void Restaurant::work(int worker) {
     std::mutex m;
