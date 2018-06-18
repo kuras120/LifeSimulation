@@ -33,7 +33,7 @@ void Restaurant::work(int worker) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
-void Restaurant::start(Human *human) {
+void Restaurant::start(std::shared_ptr<Human> human) {
     std::mutex m;
     human->GoTo(doors_.first, doors_.second);
     if(freeTables <= 0) m.lock();

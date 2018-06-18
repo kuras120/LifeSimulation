@@ -46,9 +46,9 @@ void MainController::initialiseHumans(unsigned humanCount)
 	humanList_ = std::make_shared<std::list<std::shared_ptr<Human>>>();
 	while ( humanList_->size() != humanCount )
 	{
-
 		humanList_->emplace_back(
 				std::make_shared<Human>(places, std::to_string(i), logger_));
+		logger_->info(humanList_->back()->GetName());
         i++;
 	}
 	logger_->info("Initialised " + std::to_string(humanList_->size()) + " humans");

@@ -12,5 +12,5 @@ class Place {
 public:
     std::list<std::function<void()>> const& getTasks();
 
-    virtual void start(Human *human) = 0;
+    virtual void start(std::shared_ptr<Human> human) = 0;
 };

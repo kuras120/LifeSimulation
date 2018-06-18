@@ -31,7 +31,7 @@ private:
 public:
     Restaurant();
     void work(int worker);
-    void start(Human *human);
+    void start(std::shared_ptr<Human> human);
     std::pair <int, int> getLocation();
 };
 

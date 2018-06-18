@@ -11,7 +11,9 @@
 
 class Place;
 
-class Human: public IHuman
+class Human
+		: public std::enable_shared_from_this<Human>,
+		  public IHuman
 {
 private:
     std::string name;
@@ -26,6 +28,8 @@ public:
     Human(std::list<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger);
 
     void GoTo(int x, int y);
+
+    std::string GetName();
 
 	void start();
 

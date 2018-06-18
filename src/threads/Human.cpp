@@ -17,7 +17,7 @@ void Human::start()
 {
     logger_->info(name + " started work");
     std::shared_ptr<Place> place = places.front();
-    place->start(this);
+    place->start(std::shared_ptr<Human>(this));
 }
 
 int Human::getSaturation() {
@@ -55,4 +55,8 @@ void Human::GoTo(int x, int y) {
         logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
+}
+
+std::string Human::GetName() {
+    return name;
 }
