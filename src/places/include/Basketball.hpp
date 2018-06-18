@@ -19,6 +19,10 @@ class Basketball : public Place{
     std::condition_variable condition_variable;
     std::shared_ptr<int> counter;
     std::shared_ptr<std::pair<int, int>> score;
+public:
+    const std::shared_ptr<std::pair<int, int>> &getScore() const;
+
+private:
     std::vector<std::shared_ptr<Human>> humans;
     void goToPlace(std::shared_ptr<Human> human);
     void startMatch();

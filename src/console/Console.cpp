@@ -76,6 +76,15 @@ void Console::refreshWin() {
     for (auto poss: toClear) {
         mvprintw(poss.first, poss.second, " ");
     }
+    attron(COLOR_PAIR(4));
+    (controller_->getBasketball()->getScore());
+
+    std::string buff = std::to_string(controller_->getBasketball()->getScore()->first)+
+            ":"+std::to_string(controller_->getBasketball()->getScore()->second);
+        mvprintw((controller_->getBasketball()->getLocation().first-1) ,
+                 (controller_->getBasketball()->getLocation().second + 2),
+                buff.c_str());
+
 
     toClear.clear();
     attron(COLOR_PAIR(2));
