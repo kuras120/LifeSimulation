@@ -93,9 +93,11 @@ std::shared_ptr<Basketball> &MainController::getBasketball() {
 void MainController::initialisePlaces() {
 	restaurant_= std::make_shared<Restaurant>(logger_);
     basketball_ = std::make_shared<Basketball>(logger_);
-
+	hotel_ = std::make_shared<Hotel>(logger_);
 	places.push_back(restaurant_);
-    places.push_back(basketball_);
+	places.push_back(hotel_);
+	places.push_back(basketball_);
+
 	logger_->info("Initialised places");
 }
 

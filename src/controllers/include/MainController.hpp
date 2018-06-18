@@ -7,6 +7,7 @@
 #include <Human.hpp>
 #include <Restaurant.h>
 #include <Basketball.hpp>
+#include <Hotel.h>
 #include "../../console/include/Console.hpp"
 
 class MainController
@@ -16,6 +17,7 @@ class MainController
     std::list<std::shared_ptr<Place>> places;
 	std::shared_ptr<Restaurant> restaurant_;
 	std::shared_ptr<Basketball> basketball_;
+	std::shared_ptr<Hotel> hotel_;
 public:
 	std::shared_ptr<Restaurant> &getRestaurant();
 	std::shared_ptr<Basketball> &getBasketball();
