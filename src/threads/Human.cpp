@@ -42,12 +42,7 @@ std::pair<int, int> Human::GetPossition() {
 
 void Human::GoTo(int x, int y) {
     int xInc = x>position_.first ? 1 : -1;
-    while(x != position_.first)
-    {
-        position_.first+=xInc;
-        logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    }
+
     int yInc = y>position_.first ? 1 : -1;
     while(y != position_.second)
     {
@@ -55,8 +50,19 @@ void Human::GoTo(int x, int y) {
         logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
+    while(x != position_.first)
+    {
+        position_.first+=xInc;
+        logger_->info(name + " moved to " + std::to_string(position_.first) + "," + std::to_string(position_.second));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
 }
 
 std::string Human::GetName() {
     return name;
+}
+
+std::thread Human::SpawnThread() {
+    return std::thread([this] {
+        this->start(); });
 }

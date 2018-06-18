@@ -77,7 +77,7 @@ void MainController::startHumans()
 	for ( auto& human : *humanList_ )
 	{
 		humanThreadList_.emplace_back(
-				&Human::start, *human
+				human->SpawnThread()
 				);
 	}
 	logger_->info("All threads ready");

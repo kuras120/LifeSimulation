@@ -29,6 +29,8 @@ public:
 
     void GoTo(int x, int y);
 
+    std::thread SpawnThread();
+
     std::string GetName();
 
 	void start();
