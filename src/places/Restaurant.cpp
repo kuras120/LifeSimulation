@@ -16,17 +16,33 @@ Restaurant::Restaurant() {
 void Restaurant::work(int worker) {
     std::mutex m;
     while(open) {
-        if(worker == 0) {
-            while (!tables.empty()) {
-                auto t = tables.back();
-                tables.pop();
+        while (!tables.empty()) {
+            auto t = tables.back();
+            if(worker == 0) {
                 if (!t->menuTaken) {
+                    tables.pop();
+                    t->menuTaken = true;
                     std::this_thread::sleep_for(std::chrono::seconds(2));
-                    //std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
+                    std::cout << "Menu przyniesione dla: " << t->humanNumber << std::endl;
+                    tables.push(t);
+                }
+                else if(t->mealReady) {
+                    tables.pop();
+                    t->mealTaken = true;
+                    std::this_thread::sleep_for(std::chrono::seconds(2));
+                    std::cout << "Jedzenie przyniesione i zjedzone przez " << t->humanNumber << std::endl;
                 }
             }
-        }
-        else {
+            else {
+                if(t->menuTaken && !t->mealReady) {
+                    tables.pop();
+                    t->mealReady = true;
+                    std::this_thread::sleep_for(std::chrono::seconds(2));
+                    std::cout << "Posilek zrobiony dla: " << t->humanNumber << std::endl;
+                    tables.push(t);
+
+                }
+            }
         }
     }
     while(!open){
@@ -36,22 +52,23 @@ void Restaurant::work(int worker) {
 void Restaurant::start(std::shared_ptr<Human> human) {
     std::mutex m;
     human->GoTo(doors_.first, doors_.second);
-    if(freeTables <= 0) m.lock();
+
+    m.lock();
 
     auto t = std::make_shared<table>();
     t->humanNumber = tableCounter - freeTables;
     t->menuTaken = false;
     t->mealReady = false;
+    t->mealTaken = false;
     tables.push(t);
 
     freeTables --;
-
+    m.unlock();
     while(!t->mealReady){
 
     }
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    if(freeTables <= 0) m.unlock();
     freeTables ++;
 
 

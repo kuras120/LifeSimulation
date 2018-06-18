@@ -15,6 +15,7 @@ struct table {
     int humanNumber;
     bool mealReady;
     bool menuTaken;
+    bool mealTaken;
 };
 
 class Restaurant: public Place {
