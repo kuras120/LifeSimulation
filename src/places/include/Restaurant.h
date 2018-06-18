@@ -29,10 +29,13 @@ private:
     std::thread cook;
     bool open = true;
     std::shared_ptr<spdlog::logger> logger_;
-    std::mutex m;
+    std::mutex humanLock;
+    std::mutex workerLock;
 
 public:
     Restaurant(std::shared_ptr<spdlog::logger> logger);
+    ~Restaurant();
+
     void work(int worker);
     void start(std::shared_ptr<Human> human);
     std::pair <int, int> getLocation();
