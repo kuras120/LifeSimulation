@@ -37,11 +37,13 @@ void Restaurant::work(int worker) {
                         std::this_thread::sleep_for(std::chrono::milliseconds(500));
                         waiter->goTo(location_.first + 6, location_.second + 6);
                         t1->menuTaken = true;
-
                         std::string text = "Menu przyniesione dla: ";
                         text += (t1->human->getName());
                         logger_->info(text);
+
+                        workerLock.lock();
                         tablesCook->push(t1);
+                        workerLock.unlock();
 
                     } else if (t1->mealReady) {
                         tablesWaiter->pop();
@@ -49,15 +51,19 @@ void Restaurant::work(int worker) {
                         waiter->goTo(t1->location.first + 1, t1->location.second + 1);
                         std::this_thread::sleep_for(std::chrono::milliseconds(300));
                         std::string text = "Jedzenie przyniesione dla ";
-
                         text += (t1->human->getName());
                         logger_->info(text);
+
+                        workerLock.lock();
                         tablesCook->push(t1);
+                        workerLock.unlock();
+
                         t1->human->ConditionVariable->notify_one();
                         t1->human = nullptr;
                         t1->mealTaken=false;
                         t1->menuTaken=false;
                         t1->mealReady=false;
+
                     } else if(t1->mealTaken) {
                         tablesWaiter->pop();
                         //t1->human->ConditionVariable->notify_one();
@@ -78,7 +84,10 @@ void Restaurant::work(int worker) {
                         std::string text = "Posilek zrobiony dla: ";
                         text += (t2->human->getName());
                         logger_->info(text);
+
+                        workerLock.lock();
                         tablesWaiter->push(t2);
+                        workerLock.unlock();
                     }
                 }
             }

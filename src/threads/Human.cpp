@@ -46,7 +46,7 @@ void Human::start()
         }
         else {
             goTo(10, 50);
-            random = rand() % 3 + 0;
+            random = rand() % 2 + 0;
             if(random == 0) saturation_ = 0;
             else fatigue_ = 0;
 
