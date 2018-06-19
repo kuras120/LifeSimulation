@@ -9,6 +9,7 @@
 #include <Basketball.hpp>
 #include <Hotel.h>
 #include "../../console/include/Console.hpp"
+#include "../../places/Barber.h"
 
 class MainController
 		: public std::enable_shared_from_this<MainController>
@@ -18,6 +19,7 @@ class MainController
 	std::shared_ptr<Restaurant> restaurant_;
 	std::shared_ptr<Basketball> basketball_;
 	std::shared_ptr<Hotel> hotel_;
+	std::shared_ptr<Barber> barber_;
 public:
 	std::shared_ptr<Restaurant> &getRestaurant();
 	std::shared_ptr<Basketball> &getBasketball();
