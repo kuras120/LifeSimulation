@@ -26,7 +26,6 @@ public:
 
 
 private:
-
 	std::shared_ptr<spdlog::logger> logger_;
 	std::shared_ptr<Console> console_;
 	std::shared_ptr<std::list<std::shared_ptr<Human>>> humanList_;

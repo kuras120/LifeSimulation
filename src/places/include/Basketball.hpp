@@ -21,7 +21,9 @@ private:
     std::mutex mtx_;
     std::mutex selectPlaceMtx_;
     std::mutex waitForPlayersMtx_;
+    std::mutex waitForStartMtx_;
     std::condition_variable conditionVariableQueue_;
+    std::condition_variable conditionVariableStartMatch_;
     std::condition_variable conditionVariableMatch_;
     std::shared_ptr<int> counter_;
     std::shared_ptr<int> playerCounter_;

@@ -58,7 +58,10 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
                 while (*counter_ == 4) conditionVariableQueue_.wait(unique_lock);
                 {
                     std::lock_guard<std::mutex> lockGuard(selectPlaceMtx_);
+
+                    waitForPlayersMtx_.lock();
                     (*counter_)++;
+                    waitForPlayersMtx_.unlock();
 
                     if (availability->at(0)) {
                         human->setTarget(placesToPlay_->at(0)->first, placesToPlay_->at(0)->second);
@@ -87,30 +90,22 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
                 std::unique_lock<std::mutex> unique_lock(mtx_);
 
                 human->setColor(GREEN);
-                conditionVariableMatch_.notify_all();
-                while (*counter_ != 4)
+                waitForPlayersMtx_.lock();
+                if(*counter_<4) {
+                    waitForPlayersMtx_.unlock();
                     conditionVariableMatch_.wait(unique_lock);
-                {
-                    waitForPlayersMtx_.lock();
-                    (*playerCounter_)++;
-
-                    if(*playerCounter_==4){
-                        waitForPlayersMtx_.unlock();
-                        human->setColor(RED);
-                        match();
-                        human->setColor(WHITE);
-                    } else {
-                        waitForPlayersMtx_.unlock();
-
-                        while (!(started_))
-                            conditionVariableMatch_.wait(unique_lock);
-
-                        human->setColor(RED);
-                        conditionVariableMatch_.wait(unique_lock);
-                        human->setColor(WHITE);
-
-                    }
+                    human->setColor(RED);
+                    conditionVariableMatch_.wait(unique_lock);
+                } else {
+                    waitForPlayersMtx_.unlock();
+                    conditionVariableMatch_.notify_all();
+                    human->setColor(RED);
+                    logger_->info(human->getName() + " rozpoczyna mecz");
+                    match();
                 }
+
+
+
                 conditionVariableQueue_.notify_one();
             }
         }

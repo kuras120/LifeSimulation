@@ -76,6 +76,18 @@ void Console::refreshWin() {
         mvprintw(poss.first, poss.second, " ");
     }
 
+    if(controller_->getBasketball()->isStarted_()) {
+
+        attron(COLOR_PAIR(1+basketballRefresh_));
+        basketballRefresh_ =!basketballRefresh_;
+        std::pair<int, int> restLoc = controller_->getBasketball()->getLocation();
+        mvprintw(restLoc.first, restLoc.second, "#######");
+        for (int i = 1; i < 6; ++i) {
+            mvprintw(restLoc.first + i, restLoc.second, "#     #");
+        }
+        mvprintw(restLoc.first+6, restLoc.second, "### ###");
+    }
+
     attron(COLOR_PAIR(1));
     (controller_->getBasketball()->getScore());
 

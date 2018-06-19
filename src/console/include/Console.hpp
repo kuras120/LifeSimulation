@@ -26,6 +26,7 @@ private:
     void run();
 
     std::list<std::pair<int, int>> toClear;
+    bool basketballRefresh_ = false;
     bool isRunning;
     WINDOW * mainWin;
     std::shared_ptr<MainController> controller_;
