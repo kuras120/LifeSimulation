@@ -97,7 +97,7 @@ void MainController::initialisePlaces() {
 
 	places.push_back(restaurant_);
 	places.push_back(hotel_);
-	places.push_back(basketball_);
+	//places.push_back(basketball_);
 
 	logger_->info("Initialised places");
 }
