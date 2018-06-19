@@ -120,5 +120,7 @@ void Console::run() {
 
 void Console::Stop() {
     isRunning = false;
+    endwin();
+    exit(1);
 }
 
