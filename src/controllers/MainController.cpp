@@ -10,7 +10,7 @@ MainController::MainController()
 
 	initialiseLoggers();
 	initialisePlaces();
-	initialiseHumans(13);
+	initialiseHumans(58);
 	initialiseConsole();
 
 }

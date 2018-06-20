@@ -11,7 +11,7 @@ Restaurant::Restaurant(std::shared_ptr<spdlog::logger> logger) {
     tablesCook = std::make_shared<std::queue<std::shared_ptr<table>>>();
     queue = std::make_shared<std::queue<std::shared_ptr<Human>>>();
 
-    waiter = std::make_shared<Human>("waiter", std::pair<int,int>(doors_.first +5  ,doors_.second));
+    waiter = std::make_shared<Human>("waiter", std::pair<int,int>(doors_.first +6  ,doors_.second));
 
     waiterThread = std::thread([this] {work(0);});
     cookThread = std::thread([this] {work(1);});

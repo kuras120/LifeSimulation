@@ -9,7 +9,7 @@
 #include <Basketball.hpp>
 #include <Hotel.h>
 #include "../../console/include/Console.hpp"
-#include "../../places/Barber.h"
+#include "Barber.h"
 
 class MainController
 		: public std::enable_shared_from_this<MainController>

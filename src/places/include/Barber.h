@@ -20,6 +20,8 @@ private:
     std::shared_ptr<std::list<std::shared_ptr<Human>>> humansInQue_;
     bool isRunning_ = true;
     std::mutex queueLock_;
+    std::mutex mtxOccupiedSeats_;
+    std::mutex mtxHumansInQue_;
     int occupiedSeats_;
 
     int addToQue(std::shared_ptr<Human> human);

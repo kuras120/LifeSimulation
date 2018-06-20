@@ -22,8 +22,10 @@ std::pair<int, int> Barber::getLocation() {
 }
 
 void Barber::start(std::shared_ptr<Human> human) {
-    logger_->info("hello boiz");
-    human->goTo(12, 60);
+    //logger_->info("hello boiz");
+    human->goTo(12, 58);
+
+    human->goTo(12, 61);
 
     int output = addToQue(human);
 
@@ -35,17 +37,25 @@ void Barber::start(std::shared_ptr<Human> human) {
         (human->ConditionVariable)->wait(lock);
         human->setTarget(human->getPossition().first, human->getPossition().second - 6);
         human->goToTarget();
+        human->setColor(GREEN);
 
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-        human->setTarget(human->getPossition().first + 4, human->getPossition().second);
-        human->goToTarget();
-        human->setTarget(human->getPossition().first, human->getPossition().second - 4);
-        human->goToTarget();
+        mtxHumansInQue_.lock();
         humansInQue_->pop_front();
         for(auto temp: *humansInQue_) {
             temp->setTarget(temp->getPossition().first - 1, temp->getPossition().second);
             temp->goToTarget();
         }
+        mtxHumansInQue_.unlock();
+        human->setColor(RED);
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+
+        human->setColor(WHITE);
+        human->setTarget(human->getPossition().first + 4, human->getPossition().second);
+        human->goToTarget();
+        human->setTarget(human->getPossition().first, human->getPossition().second - 4);
+        human->goToTarget();
+
+
         logger_->info(human->getName() + " zostal ostrzyzony.");
     }
 }
@@ -53,12 +63,18 @@ void Barber::changePosition() {
 
 }
 int Barber::addToQue(std::shared_ptr<Human> human) {
-    std::lock_guard<std::mutex> lock(queueLock_);
+    std::lock_guard<std::mutex> lock(mtxHumansInQue_);
+
     if(occupiedSeats_ < 5) {
         queueIn_->push(human);
+        //human->goTo(13, 72);
         human->setTarget(human->getPossition().first - (4 - occupiedSeats_), human->getPossition().second + 13);
+        //mtxHumansInQue_.lock();
         humansInQue_->push_back(human);
+        //mtxHumansInQue_.unlock();
+        mtxOccupiedSeats_.lock();
         occupiedSeats_++;
+        mtxOccupiedSeats_.unlock();
 
         return 1;
     }
@@ -75,7 +91,11 @@ void Barber::work() {
 
             queueLock_.lock();
             queueIn_->pop();
-            occupiedSeats_ --;
+
+
+            mtxOccupiedSeats_.lock();
+            occupiedSeats_--;
+            mtxOccupiedSeats_.unlock();
             queueLock_.unlock();
 
             //human = queueIn_->front();
