@@ -12,6 +12,7 @@ MainController::MainController()
 	initialisePlaces();
 	initialiseHumans(13);
 	initialiseConsole();
+
 }
 
 void MainController::initialiseLoggers()
@@ -89,15 +90,21 @@ std::shared_ptr<Basketball> &MainController::getBasketball() {
 	return basketball_;
 }
 
+std::shared_ptr<Barber> &MainController::getBarber() {
+    return barber_;
+}
 
 void MainController::initialisePlaces() {
 	restaurant_= std::make_shared<Restaurant>(logger_);
     basketball_ = std::make_shared<Basketball>(logger_);
 	hotel_ = std::make_shared<Hotel>(logger_);
+	barber_ = std::make_shared<Barber>(logger_);
 
-    places.push_back(basketball_);
     places.push_back(restaurant_);
 	places.push_back(hotel_);
+	places.push_back(barber_);
+
+    places.push_back(basketball_);
 
 	logger_->info("Initialised places");
 }

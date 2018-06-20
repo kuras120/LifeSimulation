@@ -39,6 +39,7 @@ private:
     std::shared_ptr<spdlog::logger> logger_;
     std::mutex humanLock;
     std::mutex queueLock;
+    std::mutex workerLock;
 
 private:
     void addHumanToQueue(std::shared_ptr<Human> human);
