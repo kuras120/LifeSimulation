@@ -21,6 +21,12 @@ Human::Human(const std::string &name, const std::pair<int, int> &position_) : na
 
 void Human::start()
 {
+    static int number = 0;
+
+    Human::mut.lock();
+    num = number++;
+    Human::mut.unlock();
+
     srand(time(NULL));
     int size = places.size();
     int random;
@@ -116,6 +122,11 @@ std::string Human::getName() {
     return name_;
 }
 
+int  Human::getNum() {
+    return num;
+}
+
+
 Color Human::getColor() {
     return color_;
 }
@@ -123,3 +134,5 @@ Color Human::getColor() {
 void Human::setColor(Color color) {
     color_=color;
 }
+
+std::mutex Human::mut;

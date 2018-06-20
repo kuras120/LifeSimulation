@@ -115,7 +115,9 @@ void Restaurant::start(std::shared_ptr<Human> human) {
     (human->ConditionVariable)->wait(lock);
 
     text =  human->getName() + " je";
+    human->setColor(RED);
     std::this_thread::sleep_for(std::chrono::seconds(1));
+    human->setColor(WHITE);
     text =  human->getName() + " idzie do wyjscia restauracji";
     human->goTo(doors_.first, doors_.second);
     human->setColor(WHITE);

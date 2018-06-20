@@ -12,6 +12,7 @@ public:
 
     virtual void stop() = 0;
     virtual std::string getName() = 0;
+    virtual int getNum() = 0;
     virtual std::thread spawnThread() = 0;
 
 };

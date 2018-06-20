@@ -98,7 +98,7 @@ void Console::refreshWin() {
 
     attron(COLOR_PAIR(6));
     for (auto poss: toClear) {
-        mvprintw(poss.first, poss.second, " ");
+        mvprintw(poss.first, poss.second, "  ");
     }
 
     if(controller_->getBasketball()->isStarted_()) {
@@ -129,7 +129,18 @@ void Console::refreshWin() {
         //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second))
         attron(COLOR_PAIR(human->getColor()));
         toClear.push_back(poss);
-        mvprintw(poss.first, poss.second, "H");
+
+        std::string str = "a";
+
+        int num = human->getNum();
+
+        if ( num < 26 )
+            str[0] = 'A' + num;
+        else if ( num < 52 )
+            str[0] = 'a' + num - 26;
+        else
+            str[0] = '0' + num - 52;
+        mvprintw(poss.first, poss.second, str.c_str() );
     }
 
     std::pair<int, int> poss = controller_->getRestaurant()->getWaiter()->getPossition();

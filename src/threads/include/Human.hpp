@@ -24,6 +24,8 @@ class Human
 {
 private:
     std::string name_;
+    int num;
+    static std::mutex mut;
 	int saturation_;
     int fatigue_;
     bool isRunning_ = true;
@@ -47,6 +49,7 @@ public:
     void stop() override;
 
     std::string getName() override;
+	int getNum() override;
     std::pair<int, int> getPossition() override;
 	int getSaturation() override;
     void setSaturation(int level) override;

@@ -63,15 +63,15 @@ void Barber::changePosition() {
 
 }
 int Barber::addToQue(std::shared_ptr<Human> human) {
-    std::lock_guard<std::mutex> lock(mtxHumansInQue_);
+    //std::lock_guard<std::mutex> lock(mtxHumansInQue_);
 
     if(occupiedSeats_ < 5) {
         queueIn_->push(human);
         //human->goTo(13, 72);
         human->setTarget(human->getPossition().first - (4 - occupiedSeats_), human->getPossition().second + 13);
-        //mtxHumansInQue_.lock();
+        mtxHumansInQue_.lock();
         humansInQue_->push_back(human);
-        //mtxHumansInQue_.unlock();
+        mtxHumansInQue_.unlock();
         mtxOccupiedSeats_.lock();
         occupiedSeats_++;
         mtxOccupiedSeats_.unlock();
@@ -92,11 +92,10 @@ void Barber::work() {
             queueLock_.lock();
             queueIn_->pop();
 
-
+            queueLock_.unlock();
             mtxOccupiedSeats_.lock();
             occupiedSeats_--;
             mtxOccupiedSeats_.unlock();
-            queueLock_.unlock();
 
             //human = queueIn_->front();
             human->ConditionVariable->notify_one();
