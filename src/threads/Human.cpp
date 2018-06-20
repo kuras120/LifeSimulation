@@ -34,12 +34,12 @@ void Human::goTo(int x, int y) {
     while(y != position_.second)
     {
         position_.second+=yInc;
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
     while(x != position_.first)
     {
         position_.first+=xInc;
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
 }

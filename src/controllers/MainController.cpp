@@ -10,7 +10,7 @@ MainController::MainController()
 
 	initialiseLoggers();
 	initialisePlaces();
-	initialiseHumans(10);
+	initialiseHumans(13);
 	initialiseConsole();
 }
 
@@ -95,8 +95,8 @@ void MainController::initialisePlaces() {
     basketball_ = std::make_shared<Basketball>(logger_);
 	hotel_ = std::make_shared<Hotel>(logger_);
 
-    places.push_back(restaurant_);
     places.push_back(basketball_);
+    places.push_back(restaurant_);
 	places.push_back(hotel_);
 
 	logger_->info("Initialised places");

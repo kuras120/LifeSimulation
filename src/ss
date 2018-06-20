@@ -1,21 +1,21 @@
 {
-                    waitForPlayersMtx_.lock();
-                    (*playerCounter_)++;
+                    mtxIncPlayerRdyCounter_.lock();
+                    (*playerReadyCounter_)++;
 
-                    if(*playerCounter_==4){
+                    if(*playerReadyCounter_==4){
                         human->setColor(RED);
                         logger_->info(human->getName() + " rozpoczyna mecz");
                         match();
 
                         human->setColor(WHITE);
-                        waitForPlayersMtx_.unlock();
+                        mtxIncPlayerRdyCounter_.unlock();
                     } else {
-                        waitForPlayersMtx_.unlock();
+                        mtxIncPlayerRdyCounter_.unlock();
                         while (!(started_))
-                            conditionVariableMatch_.wait(unique_lock);
+                            conVarPlayerReady.wait(unique_lock);
 
                         human->setColor(RED);
-                        conditionVariableMatch_.wait(unique_lock);
+                        conVarPlayerReady.wait(unique_lock);
                         human->setColor(WHITE);
 
                     }
