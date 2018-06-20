@@ -99,12 +99,13 @@ void MainController::initialisePlaces() {
     basketball_ = std::make_shared<Basketball>(logger_);
 	hotel_ = std::make_shared<Hotel>(logger_);
 	barber_ = std::make_shared<Barber>(logger_);
+	chessClub_ = std::make_shared<ChessClub>(logger_);
 
     places.push_back(restaurant_);
 	places.push_back(hotel_);
 	places.push_back(barber_);
-
     places.push_back(basketball_);
+	places.push_back(chessClub_);
 
 	logger_->info("Initialised places");
 }
@@ -115,4 +116,8 @@ std::shared_ptr<spdlog::logger> &MainController::getLogger() {
 
 std::shared_ptr<std::list<std::shared_ptr<Human>>> &MainController::getHumanList() {
 	return humanList_;
+}
+
+const std::shared_ptr<ChessClub> &MainController::getChessClub_() const {
+	return chessClub_;
 }

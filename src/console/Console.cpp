@@ -78,6 +78,19 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+6, restLoc.second, "### ###");
 
+    attron(COLOR_PAIR(2));
+    restLoc = controller_->getChessClub_()->getLocation();
+    mvprintw(restLoc.first, restLoc.second, "###################");
+    for (int i = 1; i < 4; ++i) {
+        mvprintw(restLoc.first + i, restLoc.second, "#                 #");
+    }
+    mvprintw(restLoc.first+4, restLoc.second, "# #################");
+
+    attron(COLOR_PAIR(4));
+    for(auto table: (controller_->getChessClub_()->getTables())){
+        mvprintw(table->position.first, table->position.second, "O");
+    }
+
     refresh();
 }
 
