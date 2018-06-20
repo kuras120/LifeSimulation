@@ -38,10 +38,11 @@ void Human::start()
         }
 
         else if(size >= 3){
-            random = rand() % size-1 + 2;
+            random = rand() % (size-2) + 2;
+            logger_->info(random);
             places[random]->start(shared_from_this());
-            fatigue_ -= rand() % 10 + 2;
-            saturation_ -= rand() % 30 + 10;
+            fatigue_ -= rand() % 5 + 50;
+            saturation_ -= rand() % 5 + 50;
 
         }
         else {

@@ -90,6 +90,9 @@ std::shared_ptr<Basketball> &MainController::getBasketball() {
 	return basketball_;
 }
 
+std::shared_ptr<Barber> &MainController::getBarber() {
+    return barber_;
+}
 
 void MainController::initialisePlaces() {
 	restaurant_= std::make_shared<Restaurant>(logger_);

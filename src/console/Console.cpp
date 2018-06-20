@@ -47,6 +47,26 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+7, restLoc.second, "################");
 
+    attron(COLOR_PAIR(2));
+    restLoc = controller_->getBarber()->getLocation();
+    mvprintw(restLoc.first, restLoc.second, "################");
+    for (int i = 1; i < 7; ++i) {
+        if(i == 4 || i == 5){
+            mvprintw(restLoc.first + i, restLoc.second, "               #");
+        }
+        else{
+            mvprintw(restLoc.first + i, restLoc.second, "#              #");
+        }
+
+    }
+    mvprintw(restLoc.first+7, restLoc.second, "################");
+
+    attron(COLOR_PAIR(4));
+    for(int i = 1; i < 6; i++) {
+        mvprintw(restLoc.first + i, restLoc.second + 13, "O");
+    }
+
+
     attron(COLOR_PAIR(4));
     for(auto table: *(controller_->getRestaurant()->getTables())){
         mvprintw(table->location.first, table->location.second, "O");
@@ -100,6 +120,13 @@ void Console::refreshWin() {
     toClear.push_back(poss);
     mvprintw(poss.first, poss.second, "W");
     move(1,1);
+
+    poss = controller_->getBarber()->getBarber()->getPossition();
+    attron(COLOR_PAIR(controller_->getBarber()->getBarber()->getColor()));
+    toClear.push_back(poss);
+    mvprintw(poss.first, poss.second, "B");
+    move(1,1);
+
 }
 
 

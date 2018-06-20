@@ -12,15 +12,18 @@
 
 class Barber:public Place {
 private:
-    std::pair <int, int> location_ = std::make_pair(40, 30);
+    std::pair <int, int> location_ = std::make_pair(7, 60);
     std::thread barberThread_;
     std::shared_ptr<spdlog::logger> logger_;
     std::shared_ptr<std::queue<std::shared_ptr<Human>>> queueIn_;
+    std::shared_ptr<Human> barber_;
+    std::shared_ptr<std::list<std::shared_ptr<Human>>> humansInQue_;
     bool isRunning_ = true;
     std::mutex queueLock_;
     int occupiedSeats_;
 
     int addToQue(std::shared_ptr<Human> human);
+    void changePosition();
 public:
     Barber(std::shared_ptr<spdlog::logger> logger);
     ~Barber();
@@ -28,6 +31,7 @@ public:
     std::pair<int, int> getLocation() override;
     void work();
     void start(std::shared_ptr<Human> human) override;
+    std::shared_ptr<Human> getBarber();
 };
 
 

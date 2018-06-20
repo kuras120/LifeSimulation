@@ -23,6 +23,7 @@ class MainController
 public:
 	std::shared_ptr<Restaurant> &getRestaurant();
 	std::shared_ptr<Basketball> &getBasketball();
+    std::shared_ptr<Barber> &getBarber();
 	std::shared_ptr<spdlog::logger> &getLogger();
 	std::shared_ptr<std::list<std::shared_ptr<Human>>> &getHumanList();
 
