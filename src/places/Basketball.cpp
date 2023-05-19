@@ -13,6 +13,7 @@ void Basketball::start(std::shared_ptr<Human> human) {
     goToPlace(human);
 
     logger_->info(human->getName() + " idzie do wyjscia z boiska");
+    human->setColor(WHITE);
 
     human->goTo(this->doors_.first-1, this->doors_.second);
     human->goTo(this->doors_.first+1, this->doors_.second);
@@ -26,9 +27,11 @@ std::pair<int, int> Basketball::getLocation() {
 
 Basketball::Basketball(std::shared_ptr<spdlog::logger> logger) {
     logger_ = logger;
+    playerReadyCounter_ = std::make_shared<int>(0);
     score_ = std::make_shared<std::pair<int, int>>(std::pair<int, int>(0,0));
     counter_ = std::make_shared<int>(0);
-    playerCounter_ = std::make_shared<int>(0);
+    playerReadyCounter_ = std::make_shared<int>(0);
+    started_ = std::make_shared<bool>(false);
 
     placesToPlay_ = std::make_shared<std::vector<std::shared_ptr<std::pair<int, int>>>>();
     placesToPlay_->push_back(std::make_shared<std::pair<int,int>>(std::pair<int, int>(location_.first+2, location_.second+2)));
@@ -54,12 +57,15 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
             {
                 std::unique_lock<std::mutex> unique_lock(mtx_);
 
-                while (*counter_ == 4) conditionVariableQueue_.wait(unique_lock);
+                while (*counter_ == 4)
+                    conVarQueue_.wait(unique_lock);
 
                 {
+                    std::lock_guard<std::mutex> lockGuard(mtxAddPlayer);
 
-                    std::lock_guard<std::mutex> lockGuard(selectPlaceMtx_);
+                    mtxIncPlayerRdyCounter_.lock();
                     (*counter_)++;
+                    mtxIncPlayerRdyCounter_.unlock();
 
                     if (availability->at(0)) {
                         human->setTarget(placesToPlay_->at(0)->first, placesToPlay_->at(0)->second);
@@ -79,39 +85,46 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
                         availability->at(3) = false;
                     }
                 }
-                conditionVariableQueue_.notify_one();
+                conVarQueue_.notify_one();
             }
 
 
             human->goToTarget();
             {
-                std::unique_lock<std::mutex> unique_lock(mtx_);
+                std::unique_lock<std::mutex> unique_lock(*(human->Mutex));
 
                 human->setColor(GREEN);
-                conditionVariableMatch_.notify_all();
-                while (*counter_ != 4)
-                    conditionVariableMatch_.wait(unique_lock);
-                {
-                    waitForPlayersMtx_.lock();
-                    (*playerCounter_)++;
+                mtxIncPlayerRdyCounter_.lock();
 
-                    if(*playerCounter_==4){
-                        waitForPlayersMtx_.unlock();
-                        human->setColor(RED);
-                        match();
-                        human->setColor(WHITE);
-                    } else {
-                        waitForPlayersMtx_.unlock();
+                if (*playerReadyCounter_ < 3) {
+                    (*playerReadyCounter_)++;
+                    mtxIncPlayerRdyCounter_.unlock();
 
-                        while ((*playerCounter_ )!=0)
-                            conditionVariableMatch_.wait(unique_lock);
-                        human->setColor(RED);
-                        conditionVariableMatch_.wait(unique_lock);
-                        human->setColor(WHITE);
+                    while (!(*started_))
+                        conVarPlayerReady.wait(unique_lock);
+                    conVarPlayerReady.notify_one();
 
-                    }
+                    human->setColor(RED);
+                    while ((*started_))
+                        conVarPlayerReady.wait(unique_lock);
+                    conVarPlayerReady.notify_one();
+
+                } else {
+                    (*playerReadyCounter_)++;
+
+                    (*started_)=true;
+                    conVarPlayerReady.notify_one();
+                    mtxIncPlayerRdyCounter_.unlock();
+
+                    human->setColor(RED);
+                    logger_->info(human->getName() + " rozpoczyna mecz");
+                    match();
+
+                    conVarPlayerReady.notify_one();
                 }
-                conditionVariableQueue_.notify_one();
+
+
+                conVarQueue_.notify_one();
             }
         }
     }
@@ -119,31 +132,26 @@ void Basketball::goToPlace(std::shared_ptr<Human> human) {
 
 void Basketball::match() {
     logger_->info("mecz sie rozpoczal");
-    *playerCounter_=0;
-    started_=true;
-    conditionVariableMatch_.notify_all();
-    conditionVariableMatch_.notify_all();
-
-    conditionVariableMatch_.notify_all();
-    conditionVariableMatch_.notify_all();
+    *playerReadyCounter_=0;
+    (*started_)=true;
+    score_->first=0;
+    score_->second=0;
     do{
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         if(time(0)%2) {
             score_->first++;
         } else
             score_->second++;
     } while (score_->first<5 && score_->second<4);
-    conditionVariableMatch_.notify_all();
     logger_->info("mecz sie zakonczyl wynikiem: " + std::to_string(score_->first)+ ":" + std::to_string(score_->second));
-    score_->first=0;
-    score_->second=0;
 
+    (*playerReadyCounter_)=0;
     (*counter_)=0;
     availability->at(0) = true;
     availability->at(1) = true;
     availability->at(2) = true;
     availability->at(3) = true;
-    started_=false;
+    (*started_)=false;
 }
 
 const std::shared_ptr<std::pair<int, int>> &Basketball::getScore() const {
@@ -151,5 +159,5 @@ const std::shared_ptr<std::pair<int, int>> &Basketball::getScore() const {
 }
 
 bool Basketball::isStarted_() const {
-    return started_;
+    return *started_;
 }

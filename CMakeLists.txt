@@ -27,7 +27,7 @@ ADD_EXECUTABLE(LifeSimulation
         src/threads/include/Human.hpp
         src/places/Place.cpp
         src/places/include/Place.hpp
-        src/places/Restaurant.cpp src/places/include/Restaurant.h src/threads/IHuman.h src/console/Console.cpp src/console/include/Console.hpp src/places/Basketball.cpp src/places/include/Basketball.hpp src/places/Hotel.cpp src/places/include/Hotel.h)
+        src/places/Restaurant.cpp src/places/include/Restaurant.h src/threads/IHuman.h src/console/Console.cpp src/console/include/Console.hpp src/places/Basketball.cpp src/places/include/Basketball.hpp src/places/Hotel.cpp src/places/include/Hotel.h src/places/Barber.cpp src/places/include/Barber.h src/places/ChessClub.cpp src/places/include/ChessClub.h)
 
 FIND_PACKAGE(Curses REQUIRED)
 FIND_PACKAGE(Threads REQUIRED)

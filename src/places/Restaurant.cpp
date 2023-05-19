@@ -11,7 +11,7 @@ Restaurant::Restaurant(std::shared_ptr<spdlog::logger> logger) {
     tablesCook = std::make_shared<std::queue<std::shared_ptr<table>>>();
     queue = std::make_shared<std::queue<std::shared_ptr<Human>>>();
 
-    waiter = std::make_shared<Human>("waiter", std::pair<int,int>(doors_.first +5  ,doors_.second));
+    waiter = std::make_shared<Human>("waiter", std::pair<int,int>(doors_.first +6  ,doors_.second));
 
     waiterThread = std::thread([this] {work(0);});
     cookThread = std::thread([this] {work(1);});
@@ -37,11 +37,13 @@ void Restaurant::work(int worker) {
                         std::this_thread::sleep_for(std::chrono::milliseconds(500));
                         waiter->goTo(location_.first + 6, location_.second + 6);
                         t1->menuTaken = true;
-
                         std::string text = "Menu przyniesione dla: ";
                         text += (t1->human->getName());
                         logger_->info(text);
+
+                        workerLock.lock();
                         tablesCook->push(t1);
+                        workerLock.unlock();
 
                     } else if (t1->mealReady) {
                         tablesWaiter->pop();
@@ -49,15 +51,19 @@ void Restaurant::work(int worker) {
                         waiter->goTo(t1->location.first + 1, t1->location.second + 1);
                         std::this_thread::sleep_for(std::chrono::milliseconds(300));
                         std::string text = "Jedzenie przyniesione dla ";
-
                         text += (t1->human->getName());
                         logger_->info(text);
+
+                        workerLock.lock();
                         tablesCook->push(t1);
+                        workerLock.unlock();
+
                         t1->human->ConditionVariable->notify_one();
                         t1->human = nullptr;
                         t1->mealTaken=false;
                         t1->menuTaken=false;
                         t1->mealReady=false;
+
                     } else if(t1->mealTaken) {
                         tablesWaiter->pop();
                         //t1->human->ConditionVariable->notify_one();
@@ -78,7 +84,10 @@ void Restaurant::work(int worker) {
                         std::string text = "Posilek zrobiony dla: ";
                         text += (t2->human->getName());
                         logger_->info(text);
+
+                        workerLock.lock();
                         tablesWaiter->push(t2);
+                        workerLock.unlock();
                     }
                 }
             }
@@ -106,7 +115,9 @@ void Restaurant::start(std::shared_ptr<Human> human) {
     (human->ConditionVariable)->wait(lock);
 
     text =  human->getName() + " je";
+    human->setColor(RED);
     std::this_thread::sleep_for(std::chrono::seconds(1));
+    human->setColor(WHITE);
     text =  human->getName() + " idzie do wyjscia restauracji";
     human->goTo(doors_.first, doors_.second);
     human->setColor(WHITE);

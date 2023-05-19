@@ -47,6 +47,24 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+7, restLoc.second, "################");
 
+    attron(COLOR_PAIR(2));
+    restLoc = controller_->getBarber()->getLocation();
+    mvprintw(restLoc.first, restLoc.second, "################");
+    for (int i = 1; i < 7; ++i) {
+        if(i == 4 || i == 5){
+            mvprintw(restLoc.first + i, restLoc.second, "               #");
+        }
+        else{
+            mvprintw(restLoc.first + i, restLoc.second, "#              #");
+        }
+    }
+    mvprintw(restLoc.first+7, restLoc.second, "################");
+
+    attron(COLOR_PAIR(4));
+    for(int i = 1; i < 6; i++) {
+        mvprintw(restLoc.first + i, restLoc.second + 13, "O");
+    }
+
     attron(COLOR_PAIR(4));
     for(auto table: *(controller_->getRestaurant()->getTables())){
         mvprintw(table->location.first, table->location.second, "O");
@@ -60,20 +78,39 @@ void Console::initializePlaces() {
     }
     mvprintw(restLoc.first+6, restLoc.second, "### ###");
 
-    //attron(COLOR_PAIR(4));
-    //for(auto placeToPlay: *(controller_->getBasketball()->getPlacesToPlay())){
-    //    mvprintw(placeToPlay->first, placeToPlay->second, "O");
-    //}
+    attron(COLOR_PAIR(2));
+    restLoc = controller_->getChessClub_()->getLocation();
+    mvprintw(restLoc.first, restLoc.second, "###################");
+    for (int i = 1; i < 4; ++i) {
+        mvprintw(restLoc.first + i, restLoc.second, "#                 #");
+    }
+    mvprintw(restLoc.first+4, restLoc.second, "# #################");
+
+    attron(COLOR_PAIR(4));
+    for(auto table: (controller_->getChessClub_()->getTables())){
+        mvprintw(table->position.first, table->position.second, "O");
+    }
 
     refresh();
-
 }
 
 void Console::refreshWin() {
 
     attron(COLOR_PAIR(6));
     for (auto poss: toClear) {
-        mvprintw(poss.first, poss.second, " ");
+        mvprintw(poss.first, poss.second, "  ");
+    }
+
+    if(controller_->getBasketball()->isStarted_()) {
+
+        attron(COLOR_PAIR(1+basketballRefresh_));
+        basketballRefresh_ =!basketballRefresh_;
+        std::pair<int, int> restLoc = controller_->getBasketball()->getLocation();
+        mvprintw(restLoc.first, restLoc.second, "#######");
+        for (int i = 1; i < 6; ++i) {
+            mvprintw(restLoc.first + i, restLoc.second, "#     #");
+        }
+        mvprintw(restLoc.first+6, restLoc.second, "### ###");
     }
 
     attron(COLOR_PAIR(1));
@@ -92,7 +129,18 @@ void Console::refreshWin() {
         //controller_->getLogger()->info("poss: " + std::to_string(poss.first) + ", " + std::to_string(poss.second))
         attron(COLOR_PAIR(human->getColor()));
         toClear.push_back(poss);
-        mvprintw(poss.first, poss.second, "H");
+
+        std::string str = "a";
+
+        int num = human->getNum();
+
+        if ( num < 26 )
+            str[0] = 'A' + num;
+        else if ( num < 52 )
+            str[0] = 'a' + num - 26;
+        else
+            str[0] = '0' + num - 52;
+        mvprintw(poss.first, poss.second, str.c_str() );
     }
 
     std::pair<int, int> poss = controller_->getRestaurant()->getWaiter()->getPossition();
@@ -100,6 +148,13 @@ void Console::refreshWin() {
     toClear.push_back(poss);
     mvprintw(poss.first, poss.second, "W");
     move(1,1);
+
+    poss = controller_->getBarber()->getBarber()->getPossition();
+    attron(COLOR_PAIR(controller_->getBarber()->getBarber()->getColor()));
+    toClear.push_back(poss);
+    mvprintw(poss.first, poss.second, "B");
+    move(1,1);
+
 }
 
 
@@ -120,5 +175,7 @@ void Console::run() {
 
 void Console::Stop() {
     isRunning = false;
+    endwin();
+    exit(1);
 }
 

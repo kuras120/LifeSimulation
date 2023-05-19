@@ -24,17 +24,20 @@ class Human
 {
 private:
     std::string name_;
+    int num;
+    static std::mutex mut;
 	int saturation_;
     int fatigue_;
     bool isRunning_ = true;
-    std::list<std::shared_ptr<Place>> places;
+    //std::list<std::shared_ptr<Place>> places;
+    std::vector<std::shared_ptr<Place>> places;
     std::pair<int, int> position_;
     std::pair<int, int> target_;
 	std::shared_ptr<spdlog::logger> logger_;
 	Color color_ = WHITE;
 
 public:
-    Human(std::list<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger);
+    Human(std::vector<std::shared_ptr<Place>> places, std::string name, std::shared_ptr<spdlog::logger> logger);
     Human(const std::string &name, const std::pair<int, int> &position_);
 
     void goTo(int x, int y);
@@ -46,6 +49,7 @@ public:
     void stop() override;
 
     std::string getName() override;
+	int getNum() override;
     std::pair<int, int> getPossition() override;
 	int getSaturation() override;
     void setSaturation(int level) override;

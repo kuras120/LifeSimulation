@@ -13,18 +13,19 @@ class Basketball : public Place{
     std::shared_ptr<std::vector<bool>> availability;
     std::shared_ptr<spdlog::logger> logger_;
 
-    bool started_;
+    std::shared_ptr<bool> started_;
 public:
     bool isStarted_() const;
 
 private:
     std::mutex mtx_;
-    std::mutex selectPlaceMtx_;
-    std::mutex waitForPlayersMtx_;
-    std::condition_variable conditionVariableQueue_;
-    std::condition_variable conditionVariableMatch_;
+    std::mutex mtxAddPlayer;
+    std::mutex mtxIncPlayerRdyCounter_;
+
+    std::condition_variable conVarQueue_;
+    std::condition_variable conVarPlayerReady;
     std::shared_ptr<int> counter_;
-    std::shared_ptr<int> playerCounter_;
+    std::shared_ptr<int> playerReadyCounter_;
     std::shared_ptr<std::pair<int, int>> score_;
 public:
     const std::shared_ptr<std::pair<int, int>> &getScore() const;
